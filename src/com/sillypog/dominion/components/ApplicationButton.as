@@ -1,0 +1,39 @@
+package com.sillypog.dominion.components
+{
+	import flash.display.Sprite;
+	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
+
+	public class ApplicationButton extends Sprite
+	{
+		public function ApplicationButton(label:String)
+		{
+			var labelField:TextField = new TextField();
+			labelField.text = label;
+			labelField.setTextFormat(new TextFormat(null, 24, null, true, null, null, null, null, TextFormatAlign.CENTER));
+			labelField.autoSize = TextFieldAutoSize.LEFT;
+			labelField.x = 10;
+			labelField.y = 3;
+			labelField.selectable = false;
+			labelField.mouseEnabled = false;
+			addChild(labelField);
+			
+			graphics.beginFill(0x99CCFF);
+			graphics.lineStyle(1,0x3399CC,1,true);
+			graphics.drawRoundRect(0,0,labelField.width + 20, labelField.height + 6, 10);
+			graphics.endFill();
+			
+			buttonMode = true;
+			
+			addEventListener(MouseEvent.CLICK, highlight);
+		}
+		
+		private function highlight(e:MouseEvent):void{
+			this.alpha = 0.5;
+		}
+		
+	}
+}
