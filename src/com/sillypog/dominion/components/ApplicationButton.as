@@ -6,6 +6,7 @@ package com.sillypog.dominion.components
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
+	import flash.utils.setTimeout;
 
 	public class ApplicationButton extends Sprite
 	{
@@ -33,6 +34,11 @@ package com.sillypog.dominion.components
 		
 		private function highlight(e:MouseEvent):void{
 			this.alpha = 0.5;
+			setTimeout(lowlight,250);
+		}
+		
+		private function lowlight():void{
+			alpha = 1;
 		}
 		
 	}

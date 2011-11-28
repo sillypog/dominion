@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set name="Base" type="Kingdom">
+	<card name="Cellar">
+		<type>Action</type>
+		<cost>
+			<treasure>2</treasure>
+		</cost>
+		<text><![CDATA[Discard any number of cards.  +1 Card per card discarded.]]></text>
+	</card>
+	<card name="Market">
+		<type>Action</type>
+		<cost>
+			<treasure>5</treasure>
+		</cost>
+	</card>
+	<card name="Militia">
+		<type>Action</type>
+		<type>Attack</type>
+		<cost>
+			<treasure>4</treasure>
+		</cost>
+	</card>	
+	<card name="Mine">
+		<type>Action</type>
+		<cost>
+			<treasure>5</treasure>
+		</cost>
+	</card>
+	<card name="Moat">
+		<type>Action</type>
+		<type>Reaction</type>
+		<cost>
+			<treasure>2</treasure>
+		</cost>
+		<text><![CDATA[When another player plays an Attack card, you may reveal this from your hand.  If you do, you are unaffected by that Attack.]]></text>
+	</card>
+	<card name="Remodel">
+		<type>Action</type>
+		<cost>
+			<treasure>4</treasure>
+		</cost>
+	</card>
+	<card name="Smithy">
+		<type>Action</type>
+		<cost>
+			<treasure>4</treasure>
+		</cost>
+	</card>
+	<card name="Village">
+		<type>Action</type>
+		<cost>
+			<treasure>3</treasure>
+		</cost>
+	</card>
+	<card name="Woodcutter">
+		<type>Action</type>
+		<cost>
+			<treasure>3</treasure>
+		</cost>
+	</card>
+	<card name="Workshop">
+		<type>Action</type>
+		<cost>
+			<treasure>3</treasure>
+		</cost>
+	</card>
+</set>
