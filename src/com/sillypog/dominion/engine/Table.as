@@ -4,6 +4,7 @@ package com.sillypog.dominion.engine
 	import com.sillypog.dominion.engine.cards.CardType;
 	import com.sillypog.dominion.engine.cards.KingdomCard;
 	import com.sillypog.dominion.engine.cards.TreasureCount;
+	import com.sillypog.dominion.engine.commands.C_DealToPlayer;
 	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.SupplyPile;
 	import com.sillypog.dominion.engine.piles.Trash;
@@ -77,6 +78,8 @@ package com.sillypog.dominion.engine
 		 */
 		public function seatPlayer(player:Player):void{
 			// Want to draw the 7 copper and 3 estates. Can I set up a command system for this and make this a macro command?
+			var dealCommand:C_DealToPlayer = new C_DealToPlayer(player, _supply.getPileByName('Copper'), _supply.getPileByName('Estate'));
+			dealCommand.execute();
 		}
 	}
 }

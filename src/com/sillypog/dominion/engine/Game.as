@@ -35,7 +35,9 @@ package com.sillypog.dominion.engine
 			for (var i:int = 0; i < _players.length; i++) {
 				_table.seatPlayer(_players[i]);
 			}
+			trace(_players.length,'Players seated');
 			
+			// Player 1 can now begin turn
 		}
 		
 	}

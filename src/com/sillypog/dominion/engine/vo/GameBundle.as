@@ -17,6 +17,7 @@ package com.sillypog.dominion.engine.vo
 		public function GameBundle(players:Vector.<Player>, universalCards:Vector.<Card>, kingdomCards:Vector.<KingdomCard>){
 			_players = players;
 			_kingdomCards = kingdomCards;
+			_universalCards = universalCards;
 		}
 		
 		public function get numPlayers():uint{

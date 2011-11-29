@@ -22,7 +22,7 @@ package
 		{
 			buttons = new Vector.<ApplicationButton>();
 			
-			buttons.push(new ApplicationButton('New Game'));
+			buttons.push(new ApplicationButton('Click To Start'));
 			
 			game = Game.instance;
 			cardLoader = CardLoader.instance;

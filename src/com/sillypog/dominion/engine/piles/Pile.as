@@ -1,5 +1,7 @@
 package com.sillypog.dominion.engine.piles
 {
+	import com.sillypog.dominion.engine.cards.Card;
+
 	/**
 	 * Base class for any pile of cards in the game, eg Kingdom cards in supply or a players draw deck.
 	 * 
@@ -46,6 +48,20 @@ package com.sillypog.dominion.engine.piles
 		 */
 		public function get count():int{
 			return 0;
+		}
+		
+		/**
+		 * Adds a card to the top of the pile.
+		 */
+		public function add(card:Card):void{
+			throw new Error('Abstract Method');
+		}
+		
+		/**
+		 * Removes a card from the top of the pile.
+		 */
+		public function draw():Card{
+			throw new Error('Abstract Method');
 		}
 		
 		
