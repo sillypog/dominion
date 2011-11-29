@@ -4,9 +4,14 @@ package
 	import com.sillypog.dominion.engine.CardLoader;
 	import com.sillypog.dominion.engine.Game;
 	import com.sillypog.dominion.engine.Player;
+	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.events.GameEvent;
 	import com.sillypog.dominion.engine.vo.GameBundle;
+	import com.sillypog.events.GlobalDispatcher;
 	
+	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
@@ -17,12 +22,13 @@ package
 		
 		private var cardLoader:CardLoader;
 		private var game:Game;
+		private var dispatcher:GlobalDispatcher;
 		
 		public function EngineTester()
 		{
 			buttons = new Vector.<ApplicationButton>();
 			
-			buttons.push(new ApplicationButton('Click To Start'));
+			buttons.push(new ApplicationButton('Start'));
 			
 			game = Game.instance;
 			cardLoader = CardLoader.instance;
@@ -31,6 +37,8 @@ package
 			var sources:Vector.<String> = Vector.<String>(['xml/Universal.xml','xml/Base.xml']);
 			cardLoader.load(sources);
 			
+			dispatcher = GlobalDispatcher.instance;
+			dispatcher.addEventListener(GameEvent.GAME_READY, gameReady);
 		}
 		
 		private function cardsLoaded(e:Event):void{
@@ -40,12 +48,28 @@ package
 		
 		private function layout():void{
 			var bY:Number = 10;
+			var bX:Number = 10;
+			if (numChildren > 0){
+				var lastChild:DisplayObject = getChildAt(numChildren-1);
+				bY = lastChild.y + lastChild.height + 20;
+				bX = lastChild.x;
+				
+				if (bY > stage.stageHeight - lastChild.height){
+					bY = 10;
+					bX += lastChild.width + 10;
+				}
+			}
 			
-			for (var i:int = 0; i < buttons.length; i++){
-				buttons[i].x = 10;
+			for (var i:int = numChildren; i < buttons.length; i++){
+				buttons[i].x = bX;
 				buttons[i].y = bY;
 				addChild(buttons[i]);
 				bY += buttons[i].height;
+				
+				if (bY > stage.stageHeight - buttons[i].height){
+					bY = 10;
+					bX += buttons[i].width + 10;
+				}
 				
 				buttons[i].addEventListener(MouseEvent.CLICK, buttonClick);
 			}
@@ -63,7 +87,49 @@ package
 			players[0] = new Player();
 			players[1] = new Player();
 			var gameBundle:GameBundle = new GameBundle(players, cardLoader.getUniversal(), cardLoader.getSet());
+			
+			layoutTable(gameBundle);
+			
 			game.newGame(gameBundle);
+		}
+		
+		
+		/**
+		 * Set up the table.
+		 * How should the display of the piles be handled? Should I get references to the actual piles?
+		 * When a pile changes, the display will need to be changed to what the pile currently is, so keeping references to piles is probably
+		 * a good idea.
+		 * 
+		 * Alternatively, I know the players and cards because they were passed in from here via Game bundle. 
+		 * So I should be able to create the slots for the piles from that, then poll the game to get the counts for those piles.
+		 */
+		private function layoutTable(bundle:GameBundle):void{
+			var universalCards:Vector.<Card> = bundle.universalCards;
+			var ucLength:int = universalCards.length;
+			for (var i:int = 0; i < ucLength; i++) {
+				var buttonName:String = universalCards[i].name;
+				buttons.push(new ApplicationButton(buttonName));
+			}
+			
+			layout();
+			
+			
+			var kcLength:int = bundle.kingdomCards.length;
+			for (var j:int = 0; j < kcLength; j++) {
+				buttonName = bundle.kingdomCards[j].name;
+				buttons.push(new ApplicationButton(buttonName));
+			}
+			
+			
+			layout();
+			
+		}
+		
+		/**
+		 * Get counts for all piles.
+		 */
+		private function gameReady(e:Event):void{
+			
 		}
 		
 	}
