@@ -2,6 +2,7 @@ package com.sillypog.dominion.engine
 {
 	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.cards.KingdomCard;
+	import com.sillypog.dominion.engine.piles.MixedPile;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -72,16 +73,6 @@ package com.sillypog.dominion.engine
 			return _kingdomCards.slice(0, 10);
 		}
 		
-		/**
-		 * Create an instance of a card of a specified type.
-		 * Mixed piles store cards as strings in order to save memory;
-		 * when drawing from those piles the cards need to be created.
-		 */
-		public function createCard(cardName:String):Card{
-			var card:Card = _cardLookup[cardName];
-			return card.clone();
-		}
-		
 		private function cardsLoaded(e:Event):void{
 			parseXML(XML(_loader.data));
 			
@@ -106,6 +97,7 @@ package com.sillypog.dominion.engine
 				}
 				_cardLookup[card.name] = card;
 			}
+			MixedPile.setCardLookup(_cardLookup);
 		}
 	}
 }
