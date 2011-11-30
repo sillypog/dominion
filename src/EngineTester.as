@@ -110,7 +110,6 @@ package
 				var buttonName:String = universalCards[i].name;
 				buttons.push(new ApplicationButton(buttonName));
 			}
-			
 			layout();
 			
 			
@@ -120,16 +119,12 @@ package
 				buttons.push(new ApplicationButton(buttonName));
 			}
 			
-			
 			layout();
-			
 		}
 		
-		/**
-		 * Get counts for all piles.
-		 */
+		
 		private function gameReady(e:Event):void{
-			
+			// Get and show counts for all piles
 		}
 		
 	}

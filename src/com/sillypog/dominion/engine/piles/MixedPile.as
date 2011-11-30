@@ -1,5 +1,6 @@
 package com.sillypog.dominion.engine.piles
 {
+	import com.sillypog.dominion.engine.CardLoader;
 	import com.sillypog.dominion.engine.cards.Card;
 
 	public class MixedPile extends Pile
@@ -7,7 +8,7 @@ package com.sillypog.dominion.engine.piles
 		/**
 		 * Cards are stored by name. This avoids accumulating hundreds of Card objects as the game progresses.
 		 */
-		private var _cards:Vector.<String>;
+		protected var _cards:Vector.<String>;
 		
 		public function MixedPile(){
 			super();
@@ -23,6 +24,24 @@ package com.sillypog.dominion.engine.piles
 		
 		override public function add(card:Card):void{
 			_cards.push(card.name);
+		}
+		
+		/**
+		 * Draws cards from the top of the pile.
+		 * 
+		 * @return Will be null if the pile was empty
+		 */
+		override public function draw():Card{
+			if (_cards.length == 0){
+				return null;
+			} 
+			var cardName:String = _cards.pop();
+			
+			// Have to create a new instance of the card
+			var cardLoader:CardLoader = CardLoader.instance;
+			var card:Card = cardLoader.createCard(cardName);
+			return card;
+			
 		}
 		
 		

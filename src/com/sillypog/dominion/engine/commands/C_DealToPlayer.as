@@ -31,6 +31,10 @@ package com.sillypog.dominion.engine.commands
 			for (i = 0; i < NUM_ESTATE; i++){
 				dealEstateCommand.execute();
 			}
+			
+			// Now all players should shuffle, replenish and draw. This sequence will also be used in future cleanup phases
+			var drawCommand:C_PlayerDrawCards = new C_PlayerDrawCards(_player, 5);
+			drawCommand.execute();
 		}
 		
 	}

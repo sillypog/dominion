@@ -19,6 +19,8 @@ package com.sillypog.dominion.engine
 		private var _table:Table;
 		private var _players:Vector.<Player>;
 		
+		private var _currentPlayer:Player;
+		
 		private var dispatcher:GlobalDispatcher;
 			
 		public static function get instance():Game{
@@ -53,6 +55,21 @@ package com.sillypog.dominion.engine
 			dispatcher.dispatchEvent(new Event(GameEvent.GAME_READY));
 			
 			// Player 1 can now begin turn
+			_currentPlayer = _players[0];
+		}
+		
+		/**
+		 * Switch to the next player
+		 */
+		public function nextPlayer():void{
+			
+		}
+		
+		/**
+		 * Called at the start of each player's turn
+		 */
+		public function beginTurn():void{
+			
 		}
 		
 	}

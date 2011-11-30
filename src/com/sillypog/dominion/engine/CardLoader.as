@@ -7,6 +7,7 @@ package com.sillypog.dominion.engine
 	import flash.events.EventDispatcher;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.Dictionary;
 	
 	/**
 	 * Loads all the available Kingdom cards prior to game creation.
@@ -24,6 +25,7 @@ package com.sillypog.dominion.engine
 		
 		private var _universalCards:Vector.<Card>;
 		private var _kingdomCards:Vector.<KingdomCard>;
+		private var _cardLookup:Dictionary;
 		
 		public static function get instance():CardLoader{
 			if (!_instance){
@@ -35,6 +37,7 @@ package com.sillypog.dominion.engine
 		public function CardLoader(enforcer:SingletonEnforcer){
 			_universalCards = new Vector.<Card>();
 			_kingdomCards = new Vector.<KingdomCard>();
+			_cardLookup = new Dictionary();
 			
 			_loader = new URLLoader();
 			_loader.addEventListener(Event.COMPLETE, cardsLoaded);
@@ -69,6 +72,16 @@ package com.sillypog.dominion.engine
 			return _kingdomCards.slice(0, 10);
 		}
 		
+		/**
+		 * Create an instance of a card of a specified type.
+		 * Mixed piles store cards as strings in order to save memory;
+		 * when drawing from those piles the cards need to be created.
+		 */
+		public function createCard(cardName:String):Card{
+			var card:Card = _cardLookup[cardName];
+			return card.clone();
+		}
+		
 		private function cardsLoaded(e:Event):void{
 			parseXML(XML(_loader.data));
 			
@@ -82,14 +95,16 @@ package com.sillypog.dominion.engine
 		
 		private function parseXML(xml:XML):void{
 			var universalType:Boolean = xml.@type == 'Universal';
+			var card:Card;
 			for each(var cardXML:XML in xml.card){
 				if (universalType){
-					var card:Card = new Card(cardXML);
+					card = new Card(cardXML);
 					_universalCards.push(card);
 				} else {
-					var kCard:KingdomCard = new KingdomCard(cardXML);
-					_kingdomCards.push(kCard);
+					card = new KingdomCard(cardXML);
+					_kingdomCards.push(card);
 				}
+				_cardLookup[card.name] = card;
 			}
 		}
 	}
