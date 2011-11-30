@@ -2,7 +2,9 @@ package com.sillypog.dominion.engine.commands
 {
 	import com.sillypog.dominion.engine.Player;
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.SupplyPile;
+	import com.sillypog.dominion.engine.piles.player.PileNames;
 
 	/**
 	 * This is the standard way a player takes a card from the supply.
@@ -20,7 +22,8 @@ package com.sillypog.dominion.engine.commands
 		
 		public function execute():void{
 			var card:Card = _supplyPile.draw();
-			_player.toDiscard(card);
+			var pile:Pile = _player.getPileByName(PileNames.DISCARD);
+			pile.add(card);
 		}
 		
 	}

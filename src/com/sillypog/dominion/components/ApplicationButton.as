@@ -29,15 +29,15 @@ package com.sillypog.dominion.components
 			
 			buttonMode = true;
 			
-			addEventListener(MouseEvent.CLICK, highlight);
+			addEventListener(MouseEvent.MOUSE_DOWN, highlight);
+			addEventListener(MouseEvent.MOUSE_UP, lowlight);
 		}
 		
 		private function highlight(e:MouseEvent):void{
 			this.alpha = 0.5;
-			setTimeout(lowlight,250);
 		}
 		
-		private function lowlight():void{
+		private function lowlight(e:MouseEvent):void{
 			alpha = 1;
 		}
 		
