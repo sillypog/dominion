@@ -1,5 +1,6 @@
 package com.sillypog.dominion.engine.piles.player
 {
+	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.piles.MixedPile;
 	
 	public class PlayerPile extends MixedPile
@@ -21,7 +22,7 @@ package com.sillypog.dominion.engine.piles.player
 		 * Adds several cards at once to the top of a pile.
 		 * Use in combination with addCards to swap piles.
 		 */
-		public function addCards(cards:Vector.<String>):void{
+		public function addCards(cards:Vector.<Card>):void{
 			_cards = _cards.concat(cards);
 		}
 		
@@ -29,8 +30,8 @@ package com.sillypog.dominion.engine.piles.player
 		 * Takes all the cards off a pile.
 		 * Use in combination with addCards to swap piles.
 		 */
-		public function removeAllCards():Vector.<String>{
-			var cards:Vector.<String> = _cards.splice(0, _cards.length);
+		public function removeAllCards():Vector.<Card>{
+			var cards:Vector.<Card> = _cards.splice(0, _cards.length);
 			return cards;
 		}
 	}

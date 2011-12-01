@@ -5,12 +5,8 @@ package com.sillypog.dominion.engine.cards
 		private var _name:String;
 		private var _type:Vector.<String>;
 		private var _cost:Cost;
-		
-		private var description:XML;
-		
+				
 		public function Card(description:XML){
-			
-			this.description = description;
 			
 			_name = description.@name;
 			
@@ -35,8 +31,6 @@ package com.sillypog.dominion.engine.cards
 			return _name;
 		}
 		
-		public function clone():Card{
-			return new Card(description);
-		}
+		
 	}
 }

@@ -8,7 +8,6 @@ package com.sillypog.dominion.engine
 	import flash.events.EventDispatcher;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	import flash.utils.Dictionary;
 	
 	/**
 	 * Loads all the available Kingdom cards prior to game creation.
@@ -26,7 +25,6 @@ package com.sillypog.dominion.engine
 		
 		private var _universalCards:Vector.<Card>;
 		private var _kingdomCards:Vector.<KingdomCard>;
-		private var _cardLookup:Dictionary;
 		
 		public static function get instance():CardLoader{
 			if (!_instance){
@@ -38,7 +36,6 @@ package com.sillypog.dominion.engine
 		public function CardLoader(enforcer:SingletonEnforcer){
 			_universalCards = new Vector.<Card>();
 			_kingdomCards = new Vector.<KingdomCard>();
-			_cardLookup = new Dictionary();
 			
 			_loader = new URLLoader();
 			_loader.addEventListener(Event.COMPLETE, cardsLoaded);
@@ -95,9 +92,7 @@ package com.sillypog.dominion.engine
 					card = new KingdomCard(cardXML);
 					_kingdomCards.push(card);
 				}
-				_cardLookup[card.name] = card;
 			}
-			MixedPile.setCardLookup(_cardLookup);
 		}
 	}
 }
