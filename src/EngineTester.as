@@ -84,8 +84,10 @@ package
 		
 		private function startGame():void{
 			var players:Vector.<Player> = new Vector.<Player>(2,true);
-			players[0] = new Player();
-			players[1] = new Player();
+			players[0] = new Player(game);
+			players[0].name = 'Player A';
+			players[1] = new Player(game);
+			players[1].name = 'Player B';
 			var gameBundle:GameBundle = new GameBundle(players, cardLoader.getUniversal(), cardLoader.getSet());
 			
 			layoutTable(gameBundle);
@@ -125,6 +127,10 @@ package
 		
 		private function gameReady(e:Event):void{
 			// Get and show counts for all piles
+			trace('Game Ready');
+			
+			// Start the first player
+			game.beginTurn();
 		}
 		
 	}

@@ -17,9 +17,12 @@ package com.sillypog.dominion.engine
 		private static var _instance:Game;
 		
 		private var _table:Table;
-		private var _players:Vector.<Player>;
 		
+		private var _players:Vector.<Player>;
 		private var _currentPlayer:Player;
+		
+		private var _turns:Vector.<Turn>;
+		private var _currentTurn:Turn;
 		
 		private var dispatcher:GlobalDispatcher;
 			
@@ -50,12 +53,15 @@ package com.sillypog.dominion.engine
 				_table.seatPlayer(_players[i]);
 			}
 			trace(_players.length,'Players seated');
+			// Player 1 can now begin turn
+			_currentPlayer = _players[0];
+			
+			_turns = new Vector.<Turn>();
 			
 			// Game display can be updated with complete table.
 			dispatcher.dispatchEvent(new Event(GameEvent.GAME_READY));
 			
-			// Player 1 can now begin turn
-			_currentPlayer = _players[0];
+			
 		}
 		
 		/**
@@ -69,8 +75,13 @@ package com.sillypog.dominion.engine
 		 * Called at the start of each player's turn
 		 */
 		public function beginTurn():void{
+			_currentTurn = new Turn(_currentPlayer);
+			_turns.push(_currentTurn);
 			
+			_currentTurn.begin();
 		}
+		
+		
 		
 	}
 }
