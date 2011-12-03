@@ -7,6 +7,7 @@ package com.sillypog.dominion.engine
 	import com.sillypog.dominion.engine.piles.player.Hand;
 	import com.sillypog.dominion.engine.piles.player.PlayArea;
 	import com.sillypog.dominion.engine.piles.player.PlayerPile;
+	import com.sillypog.dominion.engine.piles.player.Reveal;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	
 	import flash.utils.Dictionary;
@@ -27,6 +28,7 @@ package com.sillypog.dominion.engine
 			createPile(new Deck());
 			createPile(new Hand());
 			createPile(new PlayArea());
+			createPile(new Reveal());
 			createPile(new Discard());
 			// set aside
 			// duration
