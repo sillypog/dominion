@@ -9,8 +9,8 @@ package com.sillypog.dominion.engine.piles
 		 */
 		protected var _cards:Vector.<Card>;
 		
-		public function MixedPile(){
-			super();
+		public function MixedPile(owner:IPileOwner){
+			super(owner);
 			_cards = new Vector.<Card>();
 		}
 		
@@ -35,6 +35,22 @@ package com.sillypog.dominion.engine.piles
 				return null;
 			} 
 			return _cards.pop();	
+		}
+		
+		override public function showVisibleCards(requester:IPileOwner):Vector.<Card>{
+			var visibleCards:Vector.<Card> = super.showVisibleCards(requester);
+			var len:int = 0;
+			switch (tableVisibility){
+				case this.VISIBILITY_TOP: len = 1;
+					break;
+				case this.VISIBILITY_ALL: len = count;
+					break;
+			}
+			for (var i:int = count-len; i < count; i++){
+				visibleCards.push(_cards[i]);
+			}
+			
+			return visibleCards;
 		}
 			
 	}

@@ -1,6 +1,7 @@
 package com.sillypog.dominion.engine
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.piles.IPileOwner;
 	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.player.Deck;
 	import com.sillypog.dominion.engine.piles.player.Discard;
@@ -13,7 +14,7 @@ package com.sillypog.dominion.engine
 	import flash.utils.Dictionary;
 	
 	
-	public class Player
+	public class Player implements IPileOwner
 	{
 		private var _name:String;
 		
@@ -25,11 +26,11 @@ package com.sillypog.dominion.engine
 			this.game = game;
 			
 			piles = new Dictionary();
-			createPile(new Deck());
-			createPile(new Hand());
-			createPile(new PlayArea());
-			createPile(new Reveal());
-			createPile(new Discard());
+			createPile(new Deck(this));
+			createPile(new Hand(this));
+			createPile(new PlayArea(this));
+			createPile(new Reveal(this));
+			createPile(new Discard(this));
 			// set aside
 			// duration
 		}
@@ -46,8 +47,7 @@ package com.sillypog.dominion.engine
 		}
 		
 		public function choiceRequired(requirements:ChoiceParameters):void{
-			//game.choiceRequired(requirements);
-			trace('Choice required');
+			game.choiceRequired(requirements);
 		}
 		
 		private function createPile(pile:PlayerPile):void{

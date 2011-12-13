@@ -7,8 +7,8 @@ package com.sillypog.dominion.engine.piles
 		private var _cardType:Card;
 		private var _count:uint;
 		
-		public function SupplyPile(cardType:Card, startingNumber:uint){
-			super();
+		public function SupplyPile(owner:IPileOwner, cardType:Card, startingNumber:uint){
+			super(owner);
 			
 			_cardType = cardType;
 			_count = startingNumber;

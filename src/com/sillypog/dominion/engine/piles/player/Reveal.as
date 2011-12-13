@@ -1,10 +1,12 @@
 package com.sillypog.dominion.engine.piles.player
 {
+	import com.sillypog.dominion.engine.piles.IPileOwner;
+
 	public class Reveal extends PlayerPile
 	{
-		public function Reveal()
+		public function Reveal(owner:IPileOwner)
 		{
-			super();
+			super(owner);
 			tableVisibility = VISIBILITY_ALL;
 			name = PileNames.REVEAL;
 		}

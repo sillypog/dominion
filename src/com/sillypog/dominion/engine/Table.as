@@ -5,6 +5,7 @@ package com.sillypog.dominion.engine
 	import com.sillypog.dominion.engine.cards.KingdomCard;
 	import com.sillypog.dominion.engine.cards.TreasureCount;
 	import com.sillypog.dominion.engine.commands.C_DealToPlayer;
+	import com.sillypog.dominion.engine.piles.IPileOwner;
 	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.SupplyPile;
 	import com.sillypog.dominion.engine.piles.Trash;
@@ -12,7 +13,7 @@ package com.sillypog.dominion.engine
 	/**
 	 * Manages supply, mats, Players.
 	 */
-	public class Table
+	public class Table implements IPileOwner
 	{
 		private static var _table:Table;
 		
@@ -53,8 +54,7 @@ package com.sillypog.dominion.engine
 				} else if (card.isType(CardType.TREASURE)){
 					cardCount = treasureCount.getCounts(card.name);
 				}
-				pile = new SupplyPile(card, cardCount);
-				_supply.addPile(pile);
+				_supply.createPile(card, cardCount);
 			}
 			
 			
@@ -64,12 +64,11 @@ package com.sillypog.dominion.engine
 				if (card.isType(CardType.VICTORY)){
 					cardCount = numPlayers > 2 ? 12 : 8;
 				}
-				pile = new SupplyPile(card, cardCount);
-				_supply.addPile(pile);
+				_supply.createPile(card, cardCount);
 			}
 			
 			// Also add the trash pile
-			_trash = new Trash();
+			_trash = new Trash(this);
 		}
 		
 		/**
@@ -78,8 +77,12 @@ package com.sillypog.dominion.engine
 		 */
 		public function seatPlayer(player:Player):void{
 			// Want to draw the 7 copper and 3 estates. Can I set up a command system for this and make this a macro command?
-			var dealCommand:C_DealToPlayer = new C_DealToPlayer(player, _supply.getPileByName('Copper'), _supply.getPileByName('Estate'));
+			var dealCommand:C_DealToPlayer = new C_DealToPlayer(player, SupplyPile(_supply.getPileByName('Copper')), SupplyPile(_supply.getPileByName('Estate')));
 			dealCommand.execute();
+		}
+		
+		public function getPileByName(pileName:String):Pile{
+			return null;	// TO DO
 		}
 	}
 }

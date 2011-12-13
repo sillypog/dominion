@@ -1,5 +1,6 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.piles.IPileOwner;
 	import com.sillypog.dominion.engine.piles.Pile;
 
 	/**
@@ -8,12 +9,16 @@ package com.sillypog.dominion.engine
 	 * 
 	 * The Mat has a pile on it where the cards go. But Pirate Ship uses tokens instead.
 	 */
-	public class Mat
+	public class Mat implements IPileOwner
 	{
 		private var _pile:Pile;
 		
 		public function Mat()
 		{
+		}
+		
+		public function getPileByName(pileName:String):Pile{
+			return _pile;
 		}
 	}
 }

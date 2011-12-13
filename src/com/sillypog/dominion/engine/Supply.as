@@ -1,5 +1,8 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.piles.IPileOwner;
+	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.SupplyPile;
 	
 	import flash.utils.Dictionary;
@@ -12,7 +15,7 @@ package com.sillypog.dominion.engine
 	 * 
 	 * Singleton class.
 	 */
-	public class Supply{
+	public class Supply implements IPileOwner{
 		
 		private static var _instance:Supply;
 		
@@ -34,7 +37,9 @@ package com.sillypog.dominion.engine
 		/**
 		 * Piles in the supply all contain the same type of card.
 		 */
-		public function addPile(pile:SupplyPile):void{
+		public function createPile(cardType:Card, startingNumber:int):void{
+			var pile:SupplyPile = new SupplyPile(this, cardType, startingNumber);
+			
 			_piles.push(pile);
 			_pileLookup[pile.cardType.name] = pile;
 		}
@@ -46,7 +51,7 @@ package com.sillypog.dominion.engine
 			// To do
 		}
 		
-		public function getPileByName(name:String):SupplyPile{
+		public function getPileByName(name:String):Pile{
 			return _pileLookup[name];
 		}
 	}	

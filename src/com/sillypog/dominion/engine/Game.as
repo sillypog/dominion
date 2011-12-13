@@ -1,10 +1,12 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
+	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.GameBundle;
-	import com.sillypog.events.GlobalDispatcher;
 	
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	
 	/**
 	 * Organises Players and Stacks.
@@ -12,7 +14,7 @@ package com.sillypog.dominion.engine
 	 * 
 	 * Singleton class.
 	 */
-	public class Game
+	public class Game extends EventDispatcher
 	{
 		private static var _instance:Game;
 		
@@ -23,8 +25,6 @@ package com.sillypog.dominion.engine
 		
 		private var _turns:Vector.<Turn>;
 		private var _currentTurn:Turn;
-		
-		private var dispatcher:GlobalDispatcher;
 			
 		public static function get instance():Game{
 			if (!_instance){
@@ -34,7 +34,7 @@ package com.sillypog.dominion.engine
 		}
 		
 		public function Game(enforcer:SingletonEnforcer){
-			dispatcher = GlobalDispatcher.instance;
+			
 		}
 		
 		/**
@@ -59,9 +59,7 @@ package com.sillypog.dominion.engine
 			_turns = new Vector.<Turn>();
 			
 			// Game display can be updated with complete table.
-			dispatcher.dispatchEvent(new Event(GameEvent.GAME_READY));
-			
-			
+			dispatchEvent(new Event(GameEvent.GAME_READY));
 		}
 		
 		/**
@@ -79,6 +77,16 @@ package com.sillypog.dominion.engine
 			_turns.push(_currentTurn);
 			
 			_currentTurn.begin();
+		}
+		
+		/**
+		 * When a player must select something to do with cards, eg which cards in hand to play or
+		 * which of an opponents cards to trash, it comes here. An event is sent out, allowing the
+		 * display to permit the selection.
+		 */
+		public function choiceRequired(requirements:ChoiceParameters):void{
+			var choiceEvent:ChoiceEvent = new ChoiceEvent(ChoiceEvent.CHOICE_REQUIRED, requirements);
+			dispatchEvent(choiceEvent);
 		}
 		
 		

@@ -17,6 +17,8 @@ package com.sillypog.dominion.engine.piles
 		private var _tableVisibility:uint;
 		private var _playerVisibility:uint;
 		
+		private var _owner:IPileOwner;
+		
 		/**
 		 * How this pile is visible to an individual player.
 		 * Automatically returns the tableVisibility if it hasn't been overridden by a specific playerVisibility.
@@ -41,13 +43,22 @@ package com.sillypog.dominion.engine.piles
 			_tableVisibility = value;
 		}
 		
-		public function Pile(){}
+		public function Pile(owner:IPileOwner){
+			_owner = owner;
+		}
 		
 		/**
 		 * The number of cards in the pile.
 		 */
 		public function get count():int{
 			return 0;
+		}
+		
+		/**
+		 * Override in subclasses for correct behaviour.
+		 */
+		public function showVisibleCards(requester:IPileOwner):Vector.<Card>{
+			return new Vector.<Card>();
 		}
 		
 		/**
@@ -64,7 +75,9 @@ package com.sillypog.dominion.engine.piles
 			throw new Error('Abstract Method');
 		}
 		
-		
-		
+		protected function get owner():IPileOwner{
+			return _owner;
+		}
+			
 	}
 }

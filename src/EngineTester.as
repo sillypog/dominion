@@ -1,13 +1,14 @@
 package
 {
 	import com.sillypog.dominion.components.ApplicationButton;
+	import com.sillypog.dominion.components.ChoiceBox;
 	import com.sillypog.dominion.engine.CardLoader;
 	import com.sillypog.dominion.engine.Game;
 	import com.sillypog.dominion.engine.Player;
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
 	import com.sillypog.dominion.engine.vo.GameBundle;
-	import com.sillypog.events.GlobalDispatcher;
 	
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
@@ -22,7 +23,8 @@ package
 		
 		private var cardLoader:CardLoader;
 		private var game:Game;
-		private var dispatcher:GlobalDispatcher;
+		
+		private var choiceBox:ChoiceBox;
 		
 		public function EngineTester()
 		{
@@ -37,8 +39,12 @@ package
 			var sources:Vector.<String> = Vector.<String>(['xml/Universal.xml','xml/Base.xml']);
 			cardLoader.load(sources);
 			
-			dispatcher = GlobalDispatcher.instance;
-			dispatcher.addEventListener(GameEvent.GAME_READY, gameReady);
+			game.addEventListener(GameEvent.GAME_READY, gameReady);
+			game.addEventListener(ChoiceEvent.CHOICE_REQUIRED, choiceRequired);
+			
+			choiceBox = new ChoiceBox();
+			choiceBox.x = 400;
+			choiceBox.visible = false;
 		}
 		
 		private function cardsLoaded(e:Event):void{
@@ -47,6 +53,10 @@ package
 		}
 		
 		private function layout():void{
+			if (choiceBox.parent){
+				removeChild(choiceBox);
+			}
+			
 			var bY:Number = 10;
 			var bX:Number = 10;
 			if (numChildren > 0){
@@ -73,6 +83,8 @@ package
 				
 				buttons[i].addEventListener(MouseEvent.CLICK, buttonClick);
 			}
+			
+			addChild(choiceBox);
 		}
 		
 		private function buttonClick(e:MouseEvent):void{
@@ -131,6 +143,10 @@ package
 			
 			// Start the first player
 			game.beginTurn();
+		}
+		
+		private function choiceRequired(e:ChoiceEvent):void{
+			choiceBox.show(e.params);
 		}
 		
 	}

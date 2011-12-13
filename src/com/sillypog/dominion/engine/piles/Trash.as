@@ -5,9 +5,9 @@ package com.sillypog.dominion.engine.piles
 	 */
 	public class Trash extends MixedPile
 	{
-		public function Trash()
+		public function Trash(owner:IPileOwner)
 		{
-			super();
+			super(owner);
 			
 			this.tableVisibility = VISIBILITY_TOP;
 		}
