@@ -52,6 +52,19 @@ package com.sillypog.dominion.engine.piles
 			
 			return visibleCards;
 		}
+		
+		public function getCardsByType(type:String):Vector.<Card>{
+			var cards:Vector.<Card> = new Vector.<Card>();
+			var c:int = count;
+			var card:Card;
+			for (var i:int = 0; i < c; i++){
+				card = _cards[i];
+				if (card.isType(type)){
+					cards.push(card);
+				}
+			}
+			return cards;
+		}
 			
 	}
 }

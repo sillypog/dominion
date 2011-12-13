@@ -12,5 +12,6 @@ package com.sillypog.dominion.engine.phases
 		function get name():String;
 		function get nextPhase():IPhase;
 		function play(turn:Turn, player:Player):void;
+		function end():void;
 	}
 }

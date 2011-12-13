@@ -6,11 +6,13 @@ package com.sillypog.dominion.engine.vo
 	{
 		private var _player:Player;
 		private var _numCards:int;
+		private var _fromDeck:String;
 		private var _cardType:String;
 		
-		public function ChoiceParameters(player:Player, numCards:int, cardType:String){
+		public function ChoiceParameters(player:Player, numCards:int, fromDeck:String, cardType:String){
 			_player = player;
 			_numCards = numCards;
+			_fromDeck = fromDeck;
 			_cardType = cardType;
 		}
 		
@@ -20,6 +22,10 @@ package com.sillypog.dominion.engine.vo
 		
 		public function get numCards():int{
 			return _numCards;
+		}
+		
+		public function get fromDeck():String{
+			return _fromDeck;
 		}
 		
 		public function get cardType():String{

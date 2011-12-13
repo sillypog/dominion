@@ -51,7 +51,8 @@ package com.sillypog.dominion.engine.piles.player
 					case this.VISIBILITY_ALL: len = count;
 						break;
 				}
-				for (var i:int = count-len; i < count; i++){
+				var c:int = count;	// Saves calling the count getter multiple times
+				for (var i:int = c-len; i < c; i++){
 					visibleCards.push(_cards[i]);
 				}
 			} else {

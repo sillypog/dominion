@@ -20,5 +20,12 @@ package com.sillypog.dominion.engine
 			_currentPhase.play(this, _currentPlayer);
 		}
 		
+		public function nextPhase():void{
+			_currentPhase.end();
+			
+			_currentPhase = _currentPhase.nextPhase;
+			_currentPhase.play(this, _currentPlayer);
+		}
+		
 	}
 }

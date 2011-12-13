@@ -21,6 +21,8 @@ package com.sillypog.dominion.engine
 		private var game:Game;
 		private var piles:Dictionary;
 		
+		private var _actions:int;	// Number of actions remaining that can be played in current turn.
+		
 		public function Player(game:Game){
 			
 			this.game = game;
@@ -48,6 +50,20 @@ package com.sillypog.dominion.engine
 		
 		public function choiceRequired(requirements:ChoiceParameters):void{
 			game.choiceRequired(requirements);
+		}
+		
+		public function get actionsRemaining():int{
+			return _actions;
+		}
+		
+		public function incrementActions(increment:int = 1):int{
+			_actions += increment;
+			return _actions;
+		}
+		
+		public function decrementActions(decrement:int = 1):int{
+			_actions -= decrement;
+			return _actions;
 		}
 		
 		private function createPile(pile:PlayerPile):void{
