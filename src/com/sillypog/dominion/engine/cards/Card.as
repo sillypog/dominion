@@ -31,6 +31,10 @@ package com.sillypog.dominion.engine.cards
 			return _name;
 		}
 		
+		public function play():void{
+			trace(_name,'played');
+		}
+		
 		
 	}
 }

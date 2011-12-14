@@ -8,6 +8,7 @@ package
 	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
+	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.GameBundle;
 	
 	import flash.display.DisplayObject;
@@ -42,7 +43,7 @@ package
 			game.addEventListener(GameEvent.GAME_READY, gameReady);
 			game.addEventListener(ChoiceEvent.CHOICE_REQUIRED, choiceRequired);
 			
-			choiceBox = new ChoiceBox();
+			choiceBox = new ChoiceBox(game);
 			choiceBox.x = 400;
 			choiceBox.visible = false;
 		}

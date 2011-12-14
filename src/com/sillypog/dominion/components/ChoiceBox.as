@@ -1,5 +1,6 @@
 package com.sillypog.dominion.components
 {
+	import com.sillypog.dominion.engine.Game;
 	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.player.PileNames;
@@ -10,6 +11,8 @@ package com.sillypog.dominion.components
 	
 	public class ChoiceBox extends MovieClip
 	{
+		private var game:Game;
+		
 		private var buttons:Vector.<ApplicationButton>;
 		private var submit:ApplicationButton;
 		
@@ -18,9 +21,12 @@ package com.sillypog.dominion.components
 		private var cards:Vector.<Card>;
 		private var selection:Vector.<Card>;
 		
-		public function ChoiceBox()
+		public function ChoiceBox(game:Game)
 		{
 			super();
+			
+			this.game = game;
+			
 			graphics.beginFill(0x999999);
 			graphics.drawRect(0,0,300,600);
 			
@@ -84,6 +90,8 @@ package com.sillypog.dominion.components
 			// Send both the parameters and the selection - is it better to send the selection as indices or card references?
 			// Index sholdn't matter - it's not important which of 2 coppers was played
 			trace('Submitting selection:',selection);
+			parameters.result = selection;
+			game.choiceComplete(parameters);
 		}
 	}
 }

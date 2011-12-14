@@ -10,36 +10,49 @@ package com.sillypog.dominion.engine.phases
 
 	public class ActionPhase implements IPhase
 	{
-		public function ActionPhase()
+		private var _turn:Turn;
+		private var _player:Player;
+		
+		public function ActionPhase(turn:Turn, player:Player)
 		{
+			_turn = turn;
+			_player = player;
 		}
 		
 		public function get name():String
 		{
-			return null;
+			return 'Action Phase';
 		}
 		
+		/**
+		 * @return Instance of TreasurePhase
+		 */
 		public function get nextPhase():IPhase{
-			return new TreasurePhase();
+			return new TreasurePhase(_turn, _player);
 		}
 		
-		public function play(turn:Turn, player:Player):void
-		{
-			// If the player has actions remaining...
-			// Decrement the players actions
-			
-			
-			// Allow player to choose action cards to play
-			// If the player has no action cards to play, skip to the next phase
-			var hand:Hand = Hand(player.getPileByName(PileNames.HAND));
+		/**
+		 * Phase is playable if the following are true:
+		 *  - player has actions remaining.
+		 *  - player's hand contains action cards.
+		 */
+		public function get playable():Boolean{
+			var hand:Hand = Hand(_player.getPileByName(PileNames.HAND));
 			var actionCards:Vector.<Card> = hand.getCardsByType(CardType.ACTION);
-			if (player.actionsRemaining < 1 || actionCards.length == 0){
-				// End phase
-				trace(player, 'can not continue ActionPhase.');
-				turn.nextPhase();
-				return;
+			var playable:Boolean;
+			if (_player.actionsRemaining > 0 && actionCards.length > 0){
+				playable = true;
 			}
 			
+			return playable;
+		}
+		
+		public function play():void
+		{
+			// Decrement the players actions
+		
+			// Allow player to choose action cards to play
+	
 			// Choosing cards from a subset in the hand should be a generic thing because we'll have to do that for
 			// treasures and reactions too.
 			
@@ -49,15 +62,12 @@ package com.sillypog.dominion.engine.phases
 			// - Number of cards
 			// - Type of cards
 			
-			// Don't have to skip this phase, the choice part can see that there were no choices made and return that nothing was selected.
-			// But it is more efficient to skip it here, rather than involve the visual layer.
-			
 			// When a choice is made, the turn will play it's current phase, which is still this.
 			// If we're out of actions we can tell the turn to advance to the next phase.
 			
 			
-			var choiceRequirements:ChoiceParameters = new ChoiceParameters(player, 1, PileNames.HAND, CardType.ACTION);
-			player.choiceRequired(choiceRequirements);
+			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, 1, PileNames.HAND, CardType.ACTION);
+			_player.choiceRequired(choiceRequirements);
 		}
 		
 		public function end():void{}

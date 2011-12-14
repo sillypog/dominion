@@ -16,15 +16,25 @@ package com.sillypog.dominion.engine
 		public function begin():void{
 			trace(_currentPlayer.name + ' beginning turn');
 			
-			_currentPhase = new ActionPhase();
-			_currentPhase.play(this, _currentPlayer);
+			_currentPhase = new ActionPhase(this, _currentPlayer);
+			
+			continueTurn();
 		}
 		
-		public function nextPhase():void{
+		private function continueTurn():void{
+			if (_currentPhase.playable){
+				_currentPhase.play();
+			} else {
+				trace(_currentPhase.name,'complete');
+				nextPhase();
+			}
+		}
+		
+		private function nextPhase():void{
 			_currentPhase.end();
 			
 			_currentPhase = _currentPhase.nextPhase;
-			_currentPhase.play(this, _currentPlayer);
+			_currentPhase.play();
 		}
 		
 	}

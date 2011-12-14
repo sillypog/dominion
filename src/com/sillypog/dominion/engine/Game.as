@@ -1,5 +1,6 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.commands.C_ResolveChoice;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
@@ -84,9 +85,20 @@ package com.sillypog.dominion.engine
 		 * which of an opponents cards to trash, it comes here. An event is sent out, allowing the
 		 * display to permit the selection.
 		 */
-		public function choiceRequired(requirements:ChoiceParameters):void{
-			var choiceEvent:ChoiceEvent = new ChoiceEvent(ChoiceEvent.CHOICE_REQUIRED, requirements);
+		public function choiceRequired(parameters:ChoiceParameters):void{
+			var choiceEvent:ChoiceEvent = new ChoiceEvent(ChoiceEvent.CHOICE_REQUIRED, parameters);
 			dispatchEvent(choiceEvent);
+		}
+		
+		/**
+		 * The application returns the same parameters object as was dispatched via choiceRequired.
+		 * Now it has a result field saying which cards were chosen.
+		 */
+		public function choiceComplete(parameters:ChoiceParameters):void{
+			// Want to trigger commands based on what is in the choice parameters.
+			// The consistent thing is that we will be moving all of the cards from one pile (hand) to another (play area).
+			var choiceCommand:C_ResolveChoice = new C_ResolveChoice(parameters);
+			choiceCommand.execute();
 		}
 		
 		
