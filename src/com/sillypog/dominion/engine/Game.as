@@ -1,8 +1,10 @@
 package com.sillypog.dominion.engine
 {
-	import com.sillypog.dominion.engine.commands.C_ResolveChoice;
+	import com.sillypog.dominion.engine.commands.C_MoveCard;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
+	import com.sillypog.dominion.engine.events.TurnEvent;
+	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.GameBundle;
 	
@@ -34,9 +36,7 @@ package com.sillypog.dominion.engine
 			return _instance;
 		}
 		
-		public function Game(enforcer:SingletonEnforcer){
-			
-		}
+		public function Game(enforcer:SingletonEnforcer){}
 		
 		/**
 		 * Call this to create a game with the provided cards and players.
@@ -77,7 +77,14 @@ package com.sillypog.dominion.engine
 			_currentTurn = new Turn(_currentPlayer);
 			_turns.push(_currentTurn);
 			
+			_currentTurn.addEventListener(TurnEvent.TURN_COMPLETE, turnComplete);
+			
 			_currentTurn.begin();
+		}
+		
+		private function turnComplete(e:Event):void{
+			// Check if the game has been won
+			// Otherwise start next turn
 		}
 		
 		/**
@@ -96,9 +103,15 @@ package com.sillypog.dominion.engine
 		 */
 		public function choiceComplete(parameters:ChoiceParameters):void{
 			// Want to trigger commands based on what is in the choice parameters.
-			// The consistent thing is that we will be moving all of the cards from one pile (hand) to another (play area).
-			var choiceCommand:C_ResolveChoice = new C_ResolveChoice(parameters);
-			choiceCommand.execute();
+			// The consistent thing is that we will be the card from one pile (hand) to another (play area).
+			var player:Player = parameters.player;
+			var source:Pile = player.getPileByName(parameters.sourcePile);
+			var destination:Pile = player.getPileByName(parameters.destinationPile);
+			var moveCommand:C_MoveCard = new C_MoveCard(parameters.result, source, destination);
+			moveCommand.execute();
+			
+			// Now we can continue the current turn
+			_currentTurn.continueTurn();
 		}
 		
 		
@@ -107,4 +120,3 @@ package com.sillypog.dominion.engine
 }
 
 class SingletonEnforcer{}
-

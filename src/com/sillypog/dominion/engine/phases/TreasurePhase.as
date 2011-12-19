@@ -57,12 +57,17 @@ package com.sillypog.dominion.engine.phases
 			
 			// Should this phase be separate from Buy? If you have multiple buys, do you have to put all your treasures out first?
 			// That is how it is on the .NET version.
-			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, 0, PileNames.HAND, CardType.TREASURE);
+			
+			// If the card is a duration card, it should be sent to the duration pile, not play area.
+			// Perhaps this shouldn't specify the destination pile, more the action of what's happening (eg play(could be playArea or trash, etc)
+			// There should be an outcome, and that is the name of the command to call.
+			// Other choices could use the same thing.
+			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, PileNames.HAND, PileNames.PLAY_AREA, CardType.TREASURE);
 			_player.choiceRequired(choiceRequirements);
 		}
 		
 		public function end():void{
-			
+			trace('Treasure Phase end');
 		}
 	}
 }

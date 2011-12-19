@@ -7,15 +7,17 @@ package com.sillypog.dominion.engine.vo
 	{
 		private var _player:Player;
 		private var _numCards:int;
-		private var _fromDeck:String;
+		private var _sourcePile:String;
+		private var _destinationPile:String;
 		private var _cardType:String;
 		
-		private var _result:Vector.<Card>;
+		private var _result:Card;
 		
-		public function ChoiceParameters(player:Player, numCards:int, fromDeck:String, cardType:String){
+		public function ChoiceParameters(player:Player, sourcePile:String, destinationPile:String, cardType:String){
 			_player = player;
 			_numCards = numCards;
-			_fromDeck = fromDeck;
+			_sourcePile = sourcePile;
+			_destinationPile = destinationPile;
 			_cardType = cardType;
 		}
 		
@@ -27,18 +29,22 @@ package com.sillypog.dominion.engine.vo
 			return _numCards;
 		}
 		
-		public function get fromDeck():String{
-			return _fromDeck;
+		public function get sourcePile():String{
+			return _sourcePile;
+		}
+		
+		public function get destinationPile():String{
+			return _destinationPile;
 		}
 		
 		public function get cardType():String{
 			return _cardType;
 		}
 		
-		public function get result():Vector.<Card>{
+		public function get result():Card{
 			return _result;
 		}
-		public function set result(value:Vector.<Card>):void{
+		public function set result(value:Card):void{
 			_result = value;
 		}
 	}

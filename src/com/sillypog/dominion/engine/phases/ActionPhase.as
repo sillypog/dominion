@@ -66,7 +66,7 @@ package com.sillypog.dominion.engine.phases
 			// If we're out of actions we can tell the turn to advance to the next phase.
 			
 			
-			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, 1, PileNames.HAND, CardType.ACTION);
+			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, PileNames.HAND, PileNames.PLAY_AREA, CardType.ACTION);
 			_player.choiceRequired(choiceRequirements);
 		}
 		

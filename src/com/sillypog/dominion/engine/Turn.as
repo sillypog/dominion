@@ -1,9 +1,13 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.events.TurnEvent;
 	import com.sillypog.dominion.engine.phases.ActionPhase;
 	import com.sillypog.dominion.engine.phases.IPhase;
+	
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 
-	public class Turn
+	public class Turn extends EventDispatcher
 	{
 		private var _currentPlayer:Player;
 		
@@ -21,7 +25,7 @@ package com.sillypog.dominion.engine
 			continueTurn();
 		}
 		
-		private function continueTurn():void{
+		public function continueTurn():void{
 			if (_currentPhase.playable){
 				_currentPhase.play();
 			} else {
@@ -34,7 +38,14 @@ package com.sillypog.dominion.engine
 			_currentPhase.end();
 			
 			_currentPhase = _currentPhase.nextPhase;
-			_currentPhase.play();
+			
+			if (_currentPhase){
+				_currentPhase.play();
+			} else {
+				trace('Turn complete');
+				var completeEvent:Event = new Event(TurnEvent.TURN_COMPLETE);
+				dispatchEvent(completeEvent);
+			}
 		}
 		
 	}

@@ -4,5 +4,6 @@ package com.sillypog.dominion.engine.events
 	{
 		public static const CHOICE_REQUIRED:String = 'Choice Required';
 		public static const PHASE_COMPLETE:String = 'Phase Complete';
+		public static const TURN_COMPLETE:String = 'Turn Complete';
 	}
 }

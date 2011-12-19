@@ -3,7 +3,6 @@ package com.sillypog.dominion.engine.piles.player
 	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.piles.IPileOwner;
 	
-
 	public class PlayArea extends PlayerPile
 	{
 		public function PlayArea(owner:IPileOwner){

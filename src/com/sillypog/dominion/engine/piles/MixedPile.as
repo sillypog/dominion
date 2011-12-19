@@ -2,6 +2,8 @@ package com.sillypog.dominion.engine.piles
 {
 	import com.sillypog.dominion.engine.cards.Card;
 	
+	import flash.events.Event;
+	
 	public class MixedPile extends Pile
 	{		
 		/**
@@ -23,6 +25,7 @@ package com.sillypog.dominion.engine.piles
 		
 		override public function add(card:Card):void{
 			_cards.push(card);
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**
@@ -34,7 +37,9 @@ package com.sillypog.dominion.engine.piles
 			if (_cards.length == 0){
 				return null;
 			} 
-			return _cards.pop();	
+			var card:Card = _cards.pop();
+			dispatchEvent(new Event(Event.CHANGE));
+			return card;
 		}
 		
 		override public function showVisibleCards(requester:IPileOwner):Vector.<Card>{
@@ -64,6 +69,13 @@ package com.sillypog.dominion.engine.piles
 				}
 			}
 			return cards;
+		}
+		
+		public function removeCard(card:Card):Card{
+			var index:int = _cards.indexOf(card);
+			var removed:Vector.<Card> = _cards.splice(index,1);
+			dispatchEvent(new Event(Event.CHANGE));
+			return removed[0];
 		}
 			
 	}

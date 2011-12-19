@@ -1,6 +1,8 @@
 package com.sillypog.dominion.engine.piles
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	
+	import flash.events.EventDispatcher;
 
 	/**
 	 * Base class for any pile of cards in the game, eg Kingdom cards in supply or a players draw deck.
@@ -8,7 +10,7 @@ package com.sillypog.dominion.engine.piles
 	 * Should be treated as an abstract class because piles with all the same cards should be SupplyPile;
 	 * piles with different cards are MixedPile.
 	 */
-	public class Pile
+	public class Pile extends EventDispatcher
 	{
 		protected const VISIBILITY_NONE:uint = 1;
 		protected const VISIBILITY_TOP:uint = 2;

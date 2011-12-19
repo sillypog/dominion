@@ -4,6 +4,8 @@ package com.sillypog.dominion.engine.piles.player
 	import com.sillypog.dominion.engine.piles.IPileOwner;
 	import com.sillypog.dominion.engine.piles.MixedPile;
 	
+	import flash.events.Event;
+	
 	public class PlayerPile extends MixedPile
 	{
 		private var _name:String;
@@ -25,6 +27,7 @@ package com.sillypog.dominion.engine.piles.player
 		 */
 		public function addCards(cards:Vector.<Card>):void{
 			_cards = _cards.concat(cards);
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**
@@ -33,6 +36,7 @@ package com.sillypog.dominion.engine.piles.player
 		 */
 		public function removeAllCards():Vector.<Card>{
 			var cards:Vector.<Card> = _cards.splice(0, _cards.length);
+			dispatchEvent(new Event(Event.CHANGE));
 			return cards;
 		}
 		

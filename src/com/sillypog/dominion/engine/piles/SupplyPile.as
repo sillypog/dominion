@@ -1,6 +1,8 @@
 package com.sillypog.dominion.engine.piles
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	
+	import flash.events.Event;
 
 	public class SupplyPile extends Pile
 	{
@@ -32,6 +34,7 @@ package com.sillypog.dominion.engine.piles
 		override public function draw():Card{
 			if (_count){
 				_count--;
+				dispatchEvent(new Event(Event.CHANGE));
 				return _cardType;	// Or should it create a cloned object of the same type?
 			} else {
 				throw new Error('Attempt to draw from empty pile');
@@ -44,6 +47,7 @@ package com.sillypog.dominion.engine.piles
 		override public function add(card:Card):void{
 			if (card.name == _cardType.name){
 				_count++;
+				dispatchEvent(new Event(Event.CHANGE));
 			} else {
 				throw new Error('Card added to wrong pile');
 			}

@@ -14,8 +14,6 @@ package com.sillypog.dominion.components
 		private var game:Game;
 		
 		private var buttons:Vector.<ApplicationButton>;
-		private var submit:ApplicationButton;
-		
 		
 		private var parameters:ChoiceParameters;
 		private var cards:Vector.<Card>;
@@ -31,26 +29,19 @@ package com.sillypog.dominion.components
 			graphics.drawRect(0,0,300,600);
 			
 			buttons = new Vector.<ApplicationButton>();
-			
-			submit = new ApplicationButton('Submit');
-			submit.x = 50;
-			submit.y = 500;
-			addChild(submit);
-			submit.addEventListener(MouseEvent.CLICK, submitSelection);
 		}
 		
 		public function show(p:ChoiceParameters):void{
 			parameters = p;
-			
-			var numCards:String = p.numCards > 0 ? String(p.numCards) : 'any number of'; 
-			trace(p.player.name,': Choose',numCards,p.cardType,'cards to play.');
+		 
+			trace(p.player.name,': Choose a',p.cardType,'card to play.');
 			
 			clear();
 			
 			visible = true;
 			
 			// Show buttons for cards in player hand
-			var fromPile:Pile = p.player.getPileByName(p.fromDeck);
+			var fromPile:Pile = p.player.getPileByName(p.sourcePile);
 			cards = fromPile.showVisibleCards(p.player);
 			trace('Visible cards in hand',cards);
 			
@@ -75,23 +66,23 @@ package com.sillypog.dominion.components
 			selection = new Vector.<Card>();
 		}
 		
+		/**
+		 * Calls into game and triggers a command to move selected cards to appropriate deck.
+		 * Send both the parameters and the selection - is it better to send the selection as indices or card references?
+		 * Index sholdn't matter - it's not important which of 2 coppers was played
+		 */
 		private function selectCard(e:MouseEvent):void{
 			for (var i:int = 0; i < buttons.length; i++){
 				if (e.currentTarget == buttons[i]){
 					buttons[i].visible = false;
-					selection.push(cards[i]);
+					parameters.result = cards[i];
 					break;
 				}
 			}
-		}
-		
-		private function submitSelection(e:MouseEvent):void{
-			// Calls into game and triggers a command to move selected cards to appropriate deck.
-			// Send both the parameters and the selection - is it better to send the selection as indices or card references?
-			// Index sholdn't matter - it's not important which of 2 coppers was played
-			trace('Submitting selection:',selection);
-			parameters.result = selection;
+			
 			game.choiceComplete(parameters);
 		}
+		
+		
 	}
 }
