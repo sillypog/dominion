@@ -31,8 +31,7 @@ package com.sillypog.dominion.engine.phases
 		 * @return Instance of BuyPhase
 		 */
 		public function get nextPhase():IPhase{
-			//return new BuyPhase();
-			return null;
+			return new BuyPhase(_turn, _player);
 		}
 		
 		/**
