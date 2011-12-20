@@ -1,22 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set name="Universal" type="Universal">
+	
 	<card name="Copper">
 		<type>Treasure</type>
 		<cost>
 			<treasure>0</treasure>
 		</cost>
+		<play>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Treasure</property>
+					<amount>1</amount>
+				</effect>
+			</step>
+		</play>
 	</card>
+	
 	<card name="Silver">
 		<type>Treasure</type>
 		<cost>
 			<treasure>2</treasure>
 		</cost>
+		<benefit>
+			<currency>
+				<treasure>1</treasure>
+			</currency>
+		</benefit>
 	</card>
 	<card name="Gold">
 		<type>Treasure</type>
 		<cost>
 			<treasure>3</treasure>
 		</cost>
+		<benefit>
+			<currency>
+				<treasure>1</treasure>
+			</currency>
+		</benefit>
 	</card>
 	<card name="Estate">
 		<type>Victory</type>
