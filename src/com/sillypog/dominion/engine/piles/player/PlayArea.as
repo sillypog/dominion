@@ -1,6 +1,7 @@
 package com.sillypog.dominion.engine.piles.player
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.piles.IPileOwner;
 	
 	public class PlayArea extends PlayerPile
@@ -17,7 +18,9 @@ package com.sillypog.dominion.engine.piles.player
 		 */
 		override public function add(card:Card):void{
 			super.add(card);
-			card.play();
+			
+			var playEvent:CardPlayEvent = new CardPlayEvent(card, card.play());
+			dispatchEvent(playEvent);
 		}
 		
 	}

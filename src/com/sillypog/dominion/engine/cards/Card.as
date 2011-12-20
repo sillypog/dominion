@@ -1,17 +1,14 @@
 package com.sillypog.dominion.engine.cards
 {
-	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.vo.CardPlayParameters;
-	
-	import flash.events.EventDispatcher;
 
-	public class Card extends EventDispatcher
+	public class Card
 	{
 		private var _name:String;
 		private var _type:Vector.<String>;
 		private var _cost:Cost;
 		
-		private var playSteps:Vector.<CardPlayParameters>;
+		private var _playSteps:Vector.<CardPlayParameters>;
 				
 		public function Card(description:XML){
 			
@@ -24,7 +21,7 @@ package com.sillypog.dominion.engine.cards
 			
 			_cost = new Cost(description.cost[0]);
 			
-			parsePlay(description.play[0]);
+			_playSteps = parseSteps(description.play[0]);
 		}
 		
 		public function get name():String{
@@ -36,31 +33,39 @@ package com.sillypog.dominion.engine.cards
 			return index > -1;
 		}
 		
-		public function play():void{
-			trace(_name,'played');
-			// Send the steps to Game so they can be run through the appropriate command
-			var playEvent:CardPlayEvent = new CardPlayEvent(this, playSteps);
-			dispatchEvent(playEvent);
+		/**
+		 * Send the steps to Game so they can be run through the appropriate command.
+		 * AI players may use this method to check what a card does before playing it.
+		 */
+		public function play():Vector.<CardPlayParameters>{
+			return _playSteps;
 		}
 		
-		override public function toString():String{
+		public function toString():String{
 			return _name;
 		}
 		
-		private function parsePlay(description:XML):void{
+		/**
+		 * Generic function that will be able to parse play and durationPlay steps.
+		 */
+		private function parseSteps(description:XML):Vector.<CardPlayParameters>{
 			if (!description){
-				return;	// This is because not all cards have play nodes yet
+				return null;	// This is because not all cards have play nodes yet
 			}
-			var steps:XMLList = description..step;
-			playSteps = new Vector.<CardPlayParameters>(steps.length(), true);
 			
-			for (var i:int = 0, c:int = playSteps.length; i < c; i++){
-				var stepDescription:XML = steps[i];
+			var stepList:XMLList = description..step;
+			var steps:Vector.<CardPlayParameters> = new Vector.<CardPlayParameters>(stepList.length(), true);
+			
+			for (var i:int = 0, c:int = steps.length; i < c; i++){
+				var stepDescription:XML = stepList[i];
 				var step:CardPlayParameters = new CardPlayParameters(stepDescription.affects,
+																	 stepDescription.effect.@type,
 																	 stepDescription.effect.property, 
 																	 stepDescription.effect.amount);
-				playSteps[i] = step;
+				steps[i] = step;
 			}
+			
+			return steps;
 		}
 		
 		

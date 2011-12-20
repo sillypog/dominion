@@ -1,20 +1,26 @@
 package com.sillypog.dominion.engine
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.piles.IPileOwner;
 	import com.sillypog.dominion.engine.piles.Pile;
 	import com.sillypog.dominion.engine.piles.player.Deck;
 	import com.sillypog.dominion.engine.piles.player.Discard;
 	import com.sillypog.dominion.engine.piles.player.Hand;
+	import com.sillypog.dominion.engine.piles.player.PileNames;
 	import com.sillypog.dominion.engine.piles.player.PlayArea;
 	import com.sillypog.dominion.engine.piles.player.PlayerPile;
 	import com.sillypog.dominion.engine.piles.player.Reveal;
 	import com.sillypog.dominion.engine.vo.CardPlayParameters;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
+	import com.sillypog.dominion.engine.vo.PlayerTurnProperties;
 	
 	import flash.utils.Dictionary;
 	
-	
+	/**
+	 * Application creates these objects and passes them into the game.
+	 * Override the class to create AI players by listening for game events, etc.
+	 */
 	public class Player implements IPileOwner
 	{
 		private var _name:String;
@@ -22,7 +28,7 @@ package com.sillypog.dominion.engine
 		private var game:Game;
 		private var piles:Dictionary;
 		
-		private var _actions:int;	// Number of actions remaining that can be played in current turn.
+		private var _turnProperties:PlayerTurnProperties;
 		
 		public function Player(game:Game){
 			
@@ -36,6 +42,10 @@ package com.sillypog.dominion.engine
 			createPile(new Discard(this));
 			// set aside
 			// duration
+			
+			getPileByName(PileNames.PLAY_AREA).addEventListener(CardPlayEvent.CARD_PLAYED, game.cardPlayed);
+			
+			_turnProperties = new PlayerTurnProperties();
 		}
 		
 		public function get name():String{
@@ -43,6 +53,10 @@ package com.sillypog.dominion.engine
 		}
 		public function set name(value:String):void{
 			_name = value;
+		}
+		
+		public function get turnProperties():PlayerTurnProperties{
+			return _turnProperties;
 		}
 		
 		public function getPileByName(pileName:String):Pile{
@@ -54,19 +68,7 @@ package com.sillypog.dominion.engine
 			// In AI players, this would be handled internally
 		}
 		
-		public function get actionsRemaining():int{
-			return _actions;
-		}
 		
-		public function incrementActions(increment:int = 1):int{
-			_actions += increment;
-			return _actions;
-		}
-		
-		public function decrementActions(decrement:int = 1):int{
-			_actions -= decrement;
-			return _actions;
-		}
 		
 		private function createPile(pile:PlayerPile):void{
 			piles[pile.name] = pile;

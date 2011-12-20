@@ -1,10 +1,13 @@
 package com.sillypog.dominion.engine
 {
 	import com.sillypog.dominion.engine.commands.C_MoveCard;
+	import com.sillypog.dominion.engine.commands.C_PerformStep;
+	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
 	import com.sillypog.dominion.engine.events.TurnEvent;
 	import com.sillypog.dominion.engine.piles.Pile;
+	import com.sillypog.dominion.engine.vo.CardPlayParameters;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.GameBundle;
 	
@@ -114,7 +117,25 @@ package com.sillypog.dominion.engine
 			_currentTurn.continueTurn();
 		}
 		
+		/**
+		 * When a player plays a card (ie, it enters the players playArea, the steps to perform are sent here.
+		 */
+		public function cardPlayed(e:CardPlayEvent):void{
+			trace('Game: cardPlayed:',e.card.name);
+			for (var i:int = 0, c:int = e.steps.length; i < c; i++){
+				var stepCommand:C_PerformStep = new C_PerformStep(this,e.steps[i]);
+				stepCommand.execute();
+			}
+		}
 		
+		public function getPlayer(key:String):Player{
+			var requested:Player;
+			switch(key){
+				case 'Current': requested = _currentPlayer;
+					break;
+			}
+			return requested;
+		}
 		
 	}
 }

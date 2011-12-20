@@ -7,6 +7,7 @@ package com.sillypog.dominion.engine.phases
 	import com.sillypog.dominion.engine.piles.player.Hand;
 	import com.sillypog.dominion.engine.piles.player.PileNames;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
+	import com.sillypog.dominion.engine.vo.PlayerTurnProperties;
 
 	public class ActionPhase implements IPhase
 	{
@@ -39,8 +40,11 @@ package com.sillypog.dominion.engine.phases
 		public function get playable():Boolean{
 			var hand:Hand = Hand(_player.getPileByName(PileNames.HAND));
 			var actionCards:Vector.<Card> = hand.getCardsByType(CardType.ACTION);
+			var turnProperties:PlayerTurnProperties = _player.turnProperties;
+			
 			var playable:Boolean;
-			if (_player.actionsRemaining > 0 && actionCards.length > 0){
+		
+			if (turnProperties.retrieve(PlayerTurnProperties.ACTIONS) > 0 && actionCards.length > 0){
 				playable = true;
 			}
 			
