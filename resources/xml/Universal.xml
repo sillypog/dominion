@@ -20,25 +20,35 @@
 	<card name="Silver">
 		<type>Treasure</type>
 		<cost>
-			<treasure>2</treasure>
+			<treasure>3</treasure>
 		</cost>
-		<benefit>
-			<currency>
-				<treasure>1</treasure>
-			</currency>
-		</benefit>
+		<play>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Treasure</property>
+					<amount>2</amount>
+				</effect>
+			</step>
+		</play>
 	</card>
+	
 	<card name="Gold">
 		<type>Treasure</type>
 		<cost>
-			<treasure>3</treasure>
+			<treasure>6</treasure>
 		</cost>
-		<benefit>
-			<currency>
-				<treasure>1</treasure>
-			</currency>
-		</benefit>
+		<play>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Treasure</property>
+					<amount>3</amount>
+				</effect>
+			</step>
+		</play>
 	</card>
+	
 	<card name="Estate">
 		<type>Victory</type>
 		<cost>
