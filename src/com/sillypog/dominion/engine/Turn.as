@@ -40,7 +40,8 @@ package com.sillypog.dominion.engine
 			_currentPhase = _currentPhase.nextPhase;
 			
 			if (_currentPhase){
-				_currentPhase.play();
+				//_currentPhase.play();
+				continueTurn();
 			} else {
 				trace('Turn complete');
 				var completeEvent:Event = new Event(TurnEvent.TURN_COMPLETE);

@@ -13,9 +13,7 @@ package com.sillypog.dominion.engine.vo
 		public function PlayerTurnProperties()
 		{
 			dictionary = new Dictionary();
-			dictionary[ACTIONS] = 0;
-			dictionary[TREASURE] = 0;
-			dictionary[BUYS] = 0;
+			reset();
 		}
 		
 		public function change(key:String, amount:int):int{
@@ -25,6 +23,15 @@ package com.sillypog.dominion.engine.vo
 		
 		public function retrieve(key:String):int{
 			return dictionary[key];
+		}
+		
+		/**
+		 * Call during cleanup to prepare for next turn
+		 */
+		public function reset():void{
+			dictionary[ACTIONS] = 1;
+			dictionary[TREASURE] = 0;
+			dictionary[BUYS] = 1;
 		}
 	}
 }

@@ -43,7 +43,6 @@ package com.sillypog.dominion.engine.phases
 			var turnProperties:PlayerTurnProperties = _player.turnProperties;
 			
 			var playable:Boolean;
-		
 			if (turnProperties.retrieve(PlayerTurnProperties.ACTIONS) > 0 && actionCards.length > 0){
 				playable = true;
 			}
@@ -54,6 +53,8 @@ package com.sillypog.dominion.engine.phases
 		public function play():void
 		{
 			// Decrement the players actions
+			var turnProperties:PlayerTurnProperties = _player.turnProperties;
+			turnProperties.change(PlayerTurnProperties.ACTIONS,-1);
 		
 			// Allow player to choose action cards to play
 	

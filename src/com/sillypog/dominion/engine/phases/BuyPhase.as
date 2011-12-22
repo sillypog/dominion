@@ -2,6 +2,7 @@ package com.sillypog.dominion.engine.phases
 {
 	import com.sillypog.dominion.engine.Player;
 	import com.sillypog.dominion.engine.Turn;
+	import com.sillypog.dominion.engine.vo.Cost;
 	import com.sillypog.dominion.engine.vo.PlayerTurnProperties;
 
 	public class BuyPhase implements IPhase
@@ -17,12 +18,11 @@ package com.sillypog.dominion.engine.phases
 		
 		public function get name():String
 		{
-			return null;
+			return 'Buy Phase';
 		}
 		
 		public function get nextPhase():IPhase{
-			return null;
-			//return new CleanupPhase();
+			return new CleanupPhase(_turn, _player);
 		}
 		
 		/**
@@ -45,6 +45,17 @@ package com.sillypog.dominion.engine.phases
 		
 		public function play():void
 		{
+			var turnProperties:PlayerTurnProperties = _player.turnProperties;
+			turnProperties.change(PlayerTurnProperties.BUYS, -1);
+			
+			// Choose a card from the supply that they can currently afford.
+			// Whether they can afford it can be determined by building a Cost object and letting them work it out between each other
+			
+			// Grand Market requires that there are no coppers in PlayArea. So maybe it is easier to send the playArea than the
+			// properties and let the cards inspect it to see if the player can afford it.
+			
+			
+			
 		}
 		
 		public function end():void{}

@@ -1,6 +1,7 @@
 package com.sillypog.dominion.engine.cards
 {
 	import com.sillypog.dominion.engine.vo.CardPlayParameters;
+	import com.sillypog.dominion.engine.vo.Cost;
 
 	public class Card
 	{
