@@ -11,6 +11,7 @@ package com.sillypog.dominion.engine
 	import com.sillypog.dominion.engine.piles.player.PlayArea;
 	import com.sillypog.dominion.engine.piles.player.PlayerPile;
 	import com.sillypog.dominion.engine.piles.player.Reveal;
+	import com.sillypog.dominion.engine.vo.BuyParameters;
 	import com.sillypog.dominion.engine.vo.CardPlayParameters;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.PlayerTurnProperties;
@@ -63,9 +64,17 @@ package com.sillypog.dominion.engine
 			return piles[pileName];
 		}
 		
-		public function choiceRequired(requirements:ChoiceParameters):void{
+		/**
+		 * This is the type of choice where a card must be chosen from several, eg which card from hand to play
+		 */
+		public function chooseCard(requirements:ChoiceParameters):void{
 			game.choiceRequired(requirements);
 			// In AI players, this would be handled internally
+		}
+		
+		public function chooseBuy(treasure:int):void{
+			var buyParameters:BuyParameters = new BuyParameters(this, treasure, getPileByName(PileNames.PLAY_AREA));
+			game.chooseBuy(buyParameters)
 		}
 		
 		

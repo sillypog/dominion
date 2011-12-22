@@ -1,12 +1,17 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.commands.C_DrawFromSupplyToDiscard;
 	import com.sillypog.dominion.engine.commands.C_MoveCard;
 	import com.sillypog.dominion.engine.commands.C_PerformStep;
+	import com.sillypog.dominion.engine.events.BuyEvent;
 	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
 	import com.sillypog.dominion.engine.events.TurnEvent;
 	import com.sillypog.dominion.engine.piles.Pile;
+	import com.sillypog.dominion.engine.piles.SupplyPile;
+	import com.sillypog.dominion.engine.piles.player.PlayArea;
+	import com.sillypog.dominion.engine.vo.BuyParameters;
 	import com.sillypog.dominion.engine.vo.CardPlayParameters;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.GameBundle;
@@ -85,26 +90,13 @@ package com.sillypog.dominion.engine
 			_currentTurn.begin();
 		}
 		
-		private function turnComplete(e:Event):void{
-			// Check if the game has been won
-			// Otherwise start next turn
-		}
-		
-		/**
-		 * When a player must select something to do with cards, eg which cards in hand to play or
-		 * which of an opponents cards to trash, it comes here. An event is sent out, allowing the
-		 * display to permit the selection.
-		 */
-		public function choiceRequired(parameters:ChoiceParameters):void{
-			var choiceEvent:ChoiceEvent = new ChoiceEvent(ChoiceEvent.CHOICE_REQUIRED, parameters);
-			dispatchEvent(choiceEvent);
-		}
-		
 		/**
 		 * The application returns the same parameters object as was dispatched via choiceRequired.
 		 * Now it has a result field saying which cards were chosen.
 		 */
 		public function choiceComplete(parameters:ChoiceParameters):void{
+			// Should maybe return a boolean based on whether result matches parameters
+			
 			// Want to trigger commands based on what is in the choice parameters.
 			// The consistent thing is that we will be the card from one pile (hand) to another (play area).
 			var player:Player = parameters.player;
@@ -115,6 +107,20 @@ package com.sillypog.dominion.engine
 			
 			// Now we can continue the current turn
 			_currentTurn.continueTurn();
+		}
+		
+		public function buyComplete(parameters:BuyParameters):Boolean{
+			// Check if the purchase is valid and return false if not
+			
+			// Run commands to take the card from the supply and add to player deck
+			var player:Player = parameters.player;
+			var supplyPile:SupplyPile = SupplyPile(parameters.purchase);
+			var buyCommand:C_DrawFromSupplyToDiscard = new C_DrawFromSupplyToDiscard(supplyPile, player);
+			buyCommand.execute();
+			
+			_currentTurn.continueTurn();
+			
+			return true;
 		}
 		
 		/**
@@ -133,8 +139,36 @@ package com.sillypog.dominion.engine
 			switch(key){
 				case 'Current': requested = _currentPlayer;
 					break;
+				case 'Next': var index:int = _players.indexOf(_currentPlayer);
+							index++;
+							if (index == _players.length){
+								index = 0;
+							}
+							requested = _players[index];
 			}
 			return requested;
+		}
+		
+		/**
+		 * When a player must select something to do with cards, eg which cards in hand to play or
+		 * which of an opponents cards to trash, it comes here. An event is sent out, allowing the
+		 * display to permit the selection.
+		 */
+		internal function choiceRequired(parameters:ChoiceParameters):void{
+			var choiceEvent:ChoiceEvent = new ChoiceEvent(ChoiceEvent.CHOOSE_FROM_PILE, parameters);
+			dispatchEvent(choiceEvent);
+		}
+		
+		internal function chooseBuy(parameters:BuyParameters):void{
+			var buyEvent:BuyEvent = new BuyEvent(BuyEvent.CHOOSE_BUY, parameters);
+			dispatchEvent(buyEvent);
+		}
+		
+		private function turnComplete(e:Event):void{
+			// Check if the game has been won
+			// Otherwise start next turn
+			var turnEvent:Event = new Event(GameEvent.TURN_COMPLETE);
+			dispatchEvent(e);
 		}
 		
 	}

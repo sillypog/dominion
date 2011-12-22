@@ -62,7 +62,7 @@ package com.sillypog.dominion.engine.phases
 			// There should be an outcome, and that is the name of the command to call.
 			// Other choices could use the same thing.
 			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, PileNames.HAND, PileNames.PLAY_AREA, CardType.TREASURE);
-			_player.choiceRequired(choiceRequirements);
+			_player.chooseCard(choiceRequirements);
 		}
 		
 		public function end():void{

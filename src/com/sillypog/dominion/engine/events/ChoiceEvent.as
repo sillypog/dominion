@@ -6,7 +6,7 @@ package com.sillypog.dominion.engine.events
 	
 	public class ChoiceEvent extends Event
 	{
-		public static const CHOICE_REQUIRED:String = 'Choice Required';
+		public static const CHOOSE_FROM_PILE:String = 'Choose from Pile';
 		
 		private var _params:ChoiceParameters;
 		

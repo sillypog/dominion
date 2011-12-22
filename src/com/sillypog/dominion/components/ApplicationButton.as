@@ -10,8 +10,12 @@ package com.sillypog.dominion.components
 
 	public class ApplicationButton extends Sprite
 	{
+		private var _label:String;
+		
 		public function ApplicationButton(label:String)
 		{
+			_label = label;
+			
 			var labelField:TextField = new TextField();
 			labelField.text = label;
 			labelField.setTextFormat(new TextFormat(null, 24, null, true, null, null, null, null, TextFormatAlign.CENTER));
@@ -31,6 +35,10 @@ package com.sillypog.dominion.components
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, highlight);
 			addEventListener(MouseEvent.MOUSE_UP, lowlight);
+		}
+		
+		public function get label():String{
+			return _label;
 		}
 		
 		private function highlight(e:MouseEvent):void{

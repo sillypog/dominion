@@ -54,7 +54,9 @@ package com.sillypog.dominion.engine.phases
 			// Grand Market requires that there are no coppers in PlayArea. So maybe it is easier to send the playArea than the
 			// properties and let the cards inspect it to see if the player can afford it.
 			
-			
+			var treasure:int = turnProperties.retrieve(PlayerTurnProperties.TREASURE);
+			trace(_player.name,': Buy a card costing up to',treasure);
+			_player.chooseBuy(treasure);
 			
 		}
 		

@@ -33,6 +33,10 @@ package com.sillypog.dominion.engine.phases
 		{
 			_played = true;
 			_player.turnProperties.reset();
+			
+			// Check through the playArea and run anything that should happen in clean up
+			
+			_turn.continueTurn();
 		}
 		
 		public function end():void{}

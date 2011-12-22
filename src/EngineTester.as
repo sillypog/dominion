@@ -5,9 +5,13 @@ package
 	import com.sillypog.dominion.engine.CardLoader;
 	import com.sillypog.dominion.engine.Game;
 	import com.sillypog.dominion.engine.Player;
+	import com.sillypog.dominion.engine.Table;
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.events.BuyEvent;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
 	import com.sillypog.dominion.engine.events.GameEvent;
+	import com.sillypog.dominion.engine.piles.Pile;
+	import com.sillypog.dominion.engine.vo.BuyParameters;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.GameBundle;
 	
@@ -27,6 +31,8 @@ package
 		
 		private var choiceBox:ChoiceBox;
 		
+		private var currentBuy:BuyParameters;
+		
 		public function EngineTester()
 		{
 			buttons = new Vector.<ApplicationButton>();
@@ -41,7 +47,9 @@ package
 			cardLoader.load(sources);
 			
 			game.addEventListener(GameEvent.GAME_READY, gameReady);
-			game.addEventListener(ChoiceEvent.CHOICE_REQUIRED, choiceRequired);
+			game.addEventListener(ChoiceEvent.CHOOSE_FROM_PILE, choiceRequired);
+			game.addEventListener(BuyEvent.CHOOSE_BUY, chooseBuy);
+			game.addEventListener(GameEvent.TURN_COMPLETE, turnComplete);
 			
 			choiceBox = new ChoiceBox(game);
 			choiceBox.x = 400;
@@ -82,16 +90,22 @@ package
 					bX += buttons[i].width + 10;
 				}
 				
-				buttons[i].addEventListener(MouseEvent.CLICK, buttonClick);
+				if (!buttons[i].hasEventListener(MouseEvent.CLICK)){
+					buttons[i].addEventListener(MouseEvent.CLICK, buttonClick);
+				}
 			}
 			
 			addChild(choiceBox);
 		}
 		
 		private function buttonClick(e:MouseEvent):void{
-			switch(e.currentTarget){
-				case buttons[0]: startGame();
+			var button:ApplicationButton = ApplicationButton(e.currentTarget);
+			switch(button.label){
+				case 'Start': startGame();
 					break;
+				case 'Next Turn': nextTurn();
+					break;
+				default: buyCard(ApplicationButton(e.currentTarget));
 			}
 		}
 		
@@ -150,5 +164,34 @@ package
 			choiceBox.show(e.params);
 		}
 		
+		private function chooseBuy(e:BuyEvent):void{
+			currentBuy = e.parameters;
+		}
+		
+		private function buyCard(button:ApplicationButton):void{
+			if (!currentBuy){
+				return;
+			}
+			var pile:Pile = Table.instance.getPileByName(button.label);
+			currentBuy.purchase = pile;
+			
+			var success:Boolean = game.buyComplete(currentBuy);
+			
+			if (success){
+				currentBuy = null
+			}
+		}
+		
+		private function turnComplete(e:Event):void{
+			trace('\nIt is',Player(game.getPlayer('Next')).name,"'s turn.\n");
+			
+			buttons.push(new ApplicationButton('Next Turn'));
+			layout();
+		}
+		
+		private function nextTurn():void{
+			trace('New turn start');
+			game.beginTurn();
+		}
 	}
 }

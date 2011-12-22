@@ -72,7 +72,7 @@ package com.sillypog.dominion.engine.phases
 			
 			
 			var choiceRequirements:ChoiceParameters = new ChoiceParameters(_player, PileNames.HAND, PileNames.PLAY_AREA, CardType.ACTION);
-			_player.choiceRequired(choiceRequirements);
+			_player.chooseCard(choiceRequirements);
 		}
 		
 		public function end():void{}

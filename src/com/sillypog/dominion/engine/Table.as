@@ -82,7 +82,11 @@ package com.sillypog.dominion.engine
 		}
 		
 		public function getPileByName(pileName:String):Pile{
-			return null;	// TO DO
+			var pile:Pile = _supply.getPileByName(pileName);
+			if (!pile){
+				pile = _trash;
+			}
+			return pile;	// TO DO
 		}
 	}
 }

@@ -6,7 +6,6 @@ package com.sillypog.dominion.engine.vo
 	public class ChoiceParameters
 	{
 		private var _player:Player;
-		private var _numCards:int;
 		private var _sourcePile:String;
 		private var _destinationPile:String;
 		private var _cardType:String;
@@ -15,7 +14,6 @@ package com.sillypog.dominion.engine.vo
 		
 		public function ChoiceParameters(player:Player, sourcePile:String, destinationPile:String, cardType:String){
 			_player = player;
-			_numCards = numCards;
 			_sourcePile = sourcePile;
 			_destinationPile = destinationPile;
 			_cardType = cardType;
@@ -23,10 +21,6 @@ package com.sillypog.dominion.engine.vo
 		
 		public function get player():Player{
 			return _player;
-		}
-		
-		public function get numCards():int{
-			return _numCards;
 		}
 		
 		public function get sourcePile():String{
