@@ -75,7 +75,7 @@ package com.sillypog.dominion.engine
 		 * Switch to the next player
 		 */
 		public function nextPlayer():void{
-			
+			_currentPlayer = getPlayer('Next');
 		}
 		
 		/**

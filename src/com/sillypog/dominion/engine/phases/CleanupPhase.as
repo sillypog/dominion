@@ -2,6 +2,12 @@ package com.sillypog.dominion.engine.phases
 {
 	import com.sillypog.dominion.engine.Player;
 	import com.sillypog.dominion.engine.Turn;
+	import com.sillypog.dominion.engine.commands.C_PlayerDrawCards;
+	import com.sillypog.dominion.engine.commands.C_TransferPlayerPile;
+	import com.sillypog.dominion.engine.piles.player.Discard;
+	import com.sillypog.dominion.engine.piles.player.Hand;
+	import com.sillypog.dominion.engine.piles.player.PileNames;
+	import com.sillypog.dominion.engine.piles.player.PlayerPile;
 
 	public class CleanupPhase implements IPhase
 	{
@@ -34,7 +40,20 @@ package com.sillypog.dominion.engine.phases
 			_played = true;
 			_player.turnProperties.reset();
 			
+			var numDraw:int = 5;	// Number of cards to draw into new hand.
 			// Check through the playArea and run anything that should happen in clean up
+			// May modifiy numDraw
+			
+			// Move all the cards to discard
+			var transferCommand:C_TransferPlayerPile = new C_TransferPlayerPile(_player, PileNames.PLAY_AREA, PileNames.DISCARD);
+			transferCommand.execute();
+			
+			transferCommand.source = PileNames.HAND;
+			transferCommand.execute();
+			
+			// Draw a new hand
+			var drawCommand:C_PlayerDrawCards = new C_PlayerDrawCards(_player, numDraw); 
+			drawCommand.execute();
 			
 			_turn.continueTurn();
 		}

@@ -41,6 +41,11 @@ package com.sillypog.dominion.components
 			return _label;
 		}
 		
+		public function set enabled(value:Boolean):void{
+			mouseEnabled = value;
+			alpha = value ? 1 : 0.25; 
+		}
+		
 		private function highlight(e:MouseEvent):void{
 			this.alpha = 0.5;
 		}

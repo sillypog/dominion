@@ -1,6 +1,7 @@
 package
 {
 	import com.sillypog.dominion.components.ApplicationButton;
+	import com.sillypog.dominion.components.CardButton;
 	import com.sillypog.dominion.components.ChoiceBox;
 	import com.sillypog.dominion.engine.CardLoader;
 	import com.sillypog.dominion.engine.Game;
@@ -75,7 +76,7 @@ package
 				
 				if (bY > stage.stageHeight - lastChild.height){
 					bY = 10;
-					bX += lastChild.width + 10;
+					bX += 150;
 				}
 			}
 			
@@ -87,7 +88,7 @@ package
 				
 				if (bY > stage.stageHeight - buttons[i].height){
 					bY = 10;
-					bX += buttons[i].width + 10;
+					bX += 150;
 				}
 				
 				if (!buttons[i].hasEventListener(MouseEvent.CLICK)){
@@ -110,6 +111,11 @@ package
 		}
 		
 		private function startGame():void{
+			
+			buttons.push(new ApplicationButton('Next Turn'));
+			buttons[1].enabled = false;
+			layout();
+			
 			var players:Vector.<Player> = new Vector.<Player>(2,true);
 			players[0] = new Player(game);
 			players[0].name = 'Player A';
@@ -137,7 +143,7 @@ package
 			var ucLength:int = universalCards.length;
 			for (var i:int = 0; i < ucLength; i++) {
 				var buttonName:String = universalCards[i].name;
-				buttons.push(new ApplicationButton(buttonName));
+				buttons.push(new CardButton(buttonName));
 			}
 			layout();
 			
@@ -145,7 +151,7 @@ package
 			var kcLength:int = bundle.kingdomCards.length;
 			for (var j:int = 0; j < kcLength; j++) {
 				buttonName = bundle.kingdomCards[j].name;
-				buttons.push(new ApplicationButton(buttonName));
+				buttons.push(new CardButton(buttonName));
 			}
 			
 			layout();
@@ -184,13 +190,14 @@ package
 		
 		private function turnComplete(e:Event):void{
 			trace('\nIt is',Player(game.getPlayer('Next')).name,"'s turn.\n");
-			
-			buttons.push(new ApplicationButton('Next Turn'));
+			buttons[1].enabled = true;
 			layout();
 		}
 		
 		private function nextTurn():void{
 			trace('New turn start');
+			buttons[1].enabled = false;
+			game.nextPlayer();
 			game.beginTurn();
 		}
 	}
