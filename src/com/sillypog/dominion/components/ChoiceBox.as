@@ -74,13 +74,15 @@ package com.sillypog.dominion.components
 		private function selectCard(e:MouseEvent):void{
 			for (var i:int = 0; i < buttons.length; i++){
 				if (e.currentTarget == buttons[i]){
-					buttons[i].visible = false;
 					parameters.result = cards[i];
 					break;
 				}
 			}
 			
-			game.choiceComplete(parameters);
+			var success:Boolean = game.choiceComplete(parameters);
+			if (success){
+				ApplicationButton(e.currentTarget).visible = false;
+			}
 		}
 		
 		

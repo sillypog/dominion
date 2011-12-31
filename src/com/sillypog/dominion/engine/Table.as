@@ -30,6 +30,14 @@ package com.sillypog.dominion.engine
 		}
 		
 		/**
+		 * Visual interface can use this to get all the supply piles in order
+		 * to display Card details and counts.
+		 */
+		public function get supply():Supply{
+			return _supply;
+		}
+		
+		/**
 		 * Supply is created with the full number of cards. 
 		 * When players' initial hands are dealt, draw from the relevant piles (ie Copper and Estate).
 		 */
@@ -54,7 +62,7 @@ package com.sillypog.dominion.engine
 				} else if (card.isType(CardType.TREASURE)){
 					cardCount = treasureCount.getCounts(card.name);
 				}
-				_supply.createPile(card, cardCount);
+				_supply.createUniversalPile(card, cardCount);
 			}
 			
 			
@@ -64,7 +72,7 @@ package com.sillypog.dominion.engine
 				if (card.isType(CardType.VICTORY)){
 					cardCount = numPlayers > 2 ? 12 : 8;
 				}
-				_supply.createPile(card, cardCount);
+				_supply.createKingdomPile(card, cardCount);
 			}
 			
 			// Also add the trash pile

@@ -51,6 +51,7 @@ package
 			game.addEventListener(ChoiceEvent.CHOOSE_FROM_PILE, choiceRequired);
 			game.addEventListener(BuyEvent.CHOOSE_BUY, chooseBuy);
 			game.addEventListener(GameEvent.TURN_COMPLETE, turnComplete);
+			game.addEventListener(GameEvent.GAME_OVER, gameOver);
 			
 			choiceBox = new ChoiceBox(game);
 			choiceBox.x = 400;
@@ -60,6 +61,96 @@ package
 		private function cardsLoaded(e:Event):void{
 			trace('Cards Loaded');
 			layout();
+		}
+		
+		private function startGame():void{
+			
+			buttons.push(new ApplicationButton('Next Turn'));
+			buttons[1].enabled = false;
+			layout();
+			
+			var players:Vector.<Player> = new Vector.<Player>(2,true);
+			players[0] = new Player(game);
+			players[0].name = 'Player A';
+			players[1] = new Player(game);
+			players[1].name = 'Player B';
+			var gameBundle:GameBundle = new GameBundle(players, cardLoader.getUniversal(), cardLoader.getSet());
+			
+			game.newGame(gameBundle);
+		}
+		
+		private function gameReady(e:Event):void{
+			trace('Game Ready');
+			
+			// Get and show counts for all piles
+			layoutTable();
+			
+			// Start the first player
+			game.beginTurn();
+		}
+		
+		
+		/**
+		 * Set up the table.
+		 * How should the display of the piles be handled? Should I get references to the actual piles?
+		 * When a pile changes, the display will need to be changed to what the pile currently is, so keeping references to piles is probably
+		 * a good idea.
+		 * 
+		 * Alternatively, I know the players and cards because they were passed in from here via Game bundle. 
+		 * So I should be able to create the slots for the piles from that, then poll the game to get the counts for those piles.
+		 */
+		private function layoutTable():void{
+			var table:Table = Table.instance;
+			
+			layoutSupply(table.supply.universalPiles());
+			layoutSupply(table.supply.kingdomPiles());
+		}
+		
+		private function layoutSupply(piles:Vector.<Pile>):void{
+			var pileCount:int = piles.length;
+			for (var i:int = 0; i < pileCount; i++) {
+				buttons.push(new CardButton(piles[i]));
+			}
+			layout();
+		}
+		
+		private function choiceRequired(e:ChoiceEvent):void{
+			choiceBox.show(e.params);
+		}
+		
+		private function chooseBuy(e:BuyEvent):void{
+			currentBuy = e.parameters;
+		}
+		
+		private function buyCard(button:ApplicationButton):void{
+			if (!currentBuy){
+				return;
+			}
+			var pile:Pile = Table.instance.getPileByName(button.label);
+			currentBuy.purchase = pile;
+			
+			var success:Boolean = game.buyComplete(currentBuy);
+			
+			if (success){
+				currentBuy = null
+			}
+		}
+		
+		private function turnComplete(e:Event):void{
+			trace('\nIt is',Player(game.getPlayer('Next')).name,"'s turn.\n");
+			buttons[1].enabled = true;
+			layout();
+		}
+		
+		private function nextTurn():void{
+			trace('New turn start');
+			buttons[1].enabled = false;
+			game.nextPlayer();
+			game.beginTurn();
+		}
+		
+		private function gameOver(e:Event):void{
+			trace('Game Over');
 		}
 		
 		private function layout():void{
@@ -108,97 +199,6 @@ package
 					break;
 				default: buyCard(ApplicationButton(e.currentTarget));
 			}
-		}
-		
-		private function startGame():void{
-			
-			buttons.push(new ApplicationButton('Next Turn'));
-			buttons[1].enabled = false;
-			layout();
-			
-			var players:Vector.<Player> = new Vector.<Player>(2,true);
-			players[0] = new Player(game);
-			players[0].name = 'Player A';
-			players[1] = new Player(game);
-			players[1].name = 'Player B';
-			var gameBundle:GameBundle = new GameBundle(players, cardLoader.getUniversal(), cardLoader.getSet());
-			
-			layoutTable(gameBundle);
-			
-			game.newGame(gameBundle);
-		}
-		
-		
-		/**
-		 * Set up the table.
-		 * How should the display of the piles be handled? Should I get references to the actual piles?
-		 * When a pile changes, the display will need to be changed to what the pile currently is, so keeping references to piles is probably
-		 * a good idea.
-		 * 
-		 * Alternatively, I know the players and cards because they were passed in from here via Game bundle. 
-		 * So I should be able to create the slots for the piles from that, then poll the game to get the counts for those piles.
-		 */
-		private function layoutTable(bundle:GameBundle):void{
-			var universalCards:Vector.<Card> = bundle.universalCards;
-			var ucLength:int = universalCards.length;
-			for (var i:int = 0; i < ucLength; i++) {
-				var buttonName:String = universalCards[i].name;
-				buttons.push(new CardButton(buttonName));
-			}
-			layout();
-			
-			
-			var kcLength:int = bundle.kingdomCards.length;
-			for (var j:int = 0; j < kcLength; j++) {
-				buttonName = bundle.kingdomCards[j].name;
-				buttons.push(new CardButton(buttonName));
-			}
-			
-			layout();
-		}
-		
-		
-		private function gameReady(e:Event):void{
-			// Get and show counts for all piles
-			trace('Game Ready');
-			
-			// Start the first player
-			game.beginTurn();
-		}
-		
-		private function choiceRequired(e:ChoiceEvent):void{
-			choiceBox.show(e.params);
-		}
-		
-		private function chooseBuy(e:BuyEvent):void{
-			currentBuy = e.parameters;
-		}
-		
-		private function buyCard(button:ApplicationButton):void{
-			if (!currentBuy){
-				return;
-			}
-			var pile:Pile = Table.instance.getPileByName(button.label);
-			currentBuy.purchase = pile;
-			
-			var success:Boolean = game.buyComplete(currentBuy);
-			
-			if (success){
-				currentBuy = null
-			}
-		}
-		
-		private function turnComplete(e:Event):void{
-			trace('\nIt is',Player(game.getPlayer('Next')).name,"'s turn.\n");
-			buttons[1].enabled = true;
-			layout();
-		}
-		
-		private function nextTurn():void{
-			trace('New turn start');
-			buttons[1].enabled = false;
-			game.nextPlayer();
-			game.beginTurn();
 		}
 	}
 }

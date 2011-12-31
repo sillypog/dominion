@@ -14,10 +14,8 @@ package com.sillypog.dominion.engine.piles
 			
 			_cardType = cardType;
 			_count = startingNumber;
-		}
-		
-		public function get cardType():Card{
-			return _cardType;
+			
+			tableVisibility = VISIBILITY_TOP;
 		}
 		
 		/**
@@ -51,6 +49,12 @@ package com.sillypog.dominion.engine.piles
 			} else {
 				throw new Error('Card added to wrong pile');
 			}
+		}
+		
+		override public function showVisibleCards(requester:IPileOwner):Vector.<Card>{
+			var visibleCards:Vector.<Card> = super.showVisibleCards(requester);
+			visibleCards.push(_cardType);
+			return visibleCards;
 		}
 		
 	}

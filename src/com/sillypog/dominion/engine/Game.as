@@ -94,8 +94,11 @@ package com.sillypog.dominion.engine
 		 * The application returns the same parameters object as was dispatched via choiceRequired.
 		 * Now it has a result field saying which cards were chosen.
 		 */
-		public function choiceComplete(parameters:ChoiceParameters):void{
+		public function choiceComplete(parameters:ChoiceParameters):Boolean{
 			// Should maybe return a boolean based on whether result matches parameters
+			if (!parameters.result.isType(parameters.cardType)){
+				return false;
+			}
 			
 			// Want to trigger commands based on what is in the choice parameters.
 			// The consistent thing is that we will be the card from one pile (hand) to another (play area).
@@ -107,6 +110,8 @@ package com.sillypog.dominion.engine
 			
 			// Now we can continue the current turn
 			_currentTurn.continueTurn();
+			
+			return true;
 		}
 		
 		public function buyComplete(parameters:BuyParameters):Boolean{
@@ -166,9 +171,19 @@ package com.sillypog.dominion.engine
 		
 		private function turnComplete(e:Event):void{
 			// Check if the game has been won
-			// Otherwise start next turn
-			var turnEvent:Event = new Event(GameEvent.TURN_COMPLETE);
-			dispatchEvent(e);
+			var provincePile:Pile = _table.getPileByName('Province');
+			var emptyPiles:Vector.<Pile> = _table.supply.emptyPiles;
+			if (provincePile.count == 0 || emptyPiles.length >= 3){
+				gameOver();
+			} else {
+				// Otherwise start next turn
+				var turnEvent:Event = new Event(GameEvent.TURN_COMPLETE);
+				dispatchEvent(e);
+			}
+		}
+		
+		private function gameOver():void{
+			dispatchEvent(new Event(GameEvent.GAME_OVER));
 		}
 		
 	}
