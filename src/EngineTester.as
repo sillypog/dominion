@@ -29,6 +29,7 @@ package
 		
 		private var cardLoader:CardLoader;
 		private var game:Game;
+		private var players:Vector.<Player>
 		
 		private var choiceBox:ChoiceBox;
 		
@@ -69,7 +70,7 @@ package
 			buttons[1].enabled = false;
 			layout();
 			
-			var players:Vector.<Player> = new Vector.<Player>(2,true);
+			players = new Vector.<Player>(2,true);
 			players[0] = new Player(game);
 			players[0].name = 'Player A';
 			players[1] = new Player(game);
@@ -152,7 +153,10 @@ package
 		}
 		
 		private function gameOver(e:Event):void{
-			trace('Game Over');
+			trace('Game Over.');
+			for (var i:int = 0; i < players.length; i++){
+				trace(players[i].name, players[i].victoryPoints);
+			}
 		}
 		
 		private function layout():void{

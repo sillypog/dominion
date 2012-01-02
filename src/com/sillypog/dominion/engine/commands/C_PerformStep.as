@@ -25,6 +25,7 @@ package com.sillypog.dominion.engine.commands
 			switch(_step.type){
 				case 'Change': stepCommand = new C_ChangePlayerProperty(player, _step.property, _step.amount);
 					break;
+				case 'Draw': stepCommand = new C_PlayerDrawCards(player, _step.amount);
 			}
 			
 			stepCommand.execute();

@@ -60,6 +60,15 @@ package com.sillypog.dominion.engine
 			return _turnProperties;
 		}
 		
+		public function get victoryPoints():int{
+			var points:int;
+			for (var key:String in piles){
+				var pile:PlayerPile = PlayerPile(piles[key]);
+				points += pile.countTotals('points');
+			}
+			return points;
+		}
+		
 		public function getPileByName(pileName:String):Pile{
 			return piles[pileName];
 		}

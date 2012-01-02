@@ -41,6 +41,19 @@ package com.sillypog.dominion.engine.piles.player
 		}
 		
 		/**
+		 * Use to calculate the total amount of, eg points, contained within the pile.
+		 */
+		public function countTotals(field:String):int{
+			var total:int;
+			var card:Card;
+			for (var i:int = 0, c:int = _cards.length; i < c; i++){
+				card = _cards[i];
+				total += card[field];
+			}
+			return total;
+		}
+		
+		/**
 		 * Unlike other piles, it will matter whether the requester owns this pile.
 		 * If it is not the owner, return what is visible to the table.
 		 */

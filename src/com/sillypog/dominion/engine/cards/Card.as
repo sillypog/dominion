@@ -8,6 +8,7 @@ package com.sillypog.dominion.engine.cards
 		private var _name:String;
 		private var _type:Vector.<String>;
 		private var _cost:Cost;
+		private var _points:int;
 		
 		private var _playSteps:Vector.<CardPlayParameters>;
 				
@@ -22,6 +23,8 @@ package com.sillypog.dominion.engine.cards
 			
 			_cost = new Cost(description.cost[0]);
 			
+			_points = description.points[0];
+			
 			_playSteps = parseSteps(description.play[0]);
 		}
 		
@@ -31,6 +34,10 @@ package com.sillypog.dominion.engine.cards
 		
 		public function get cost():Cost{
 			return _cost;
+		}
+		
+		public function get points():int{
+			return _points;
 		}
 		
 		public function isType(type:String):Boolean{
