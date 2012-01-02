@@ -54,23 +54,31 @@
 		<cost>
 			<treasure>2</treasure>
 		</cost>
+		<points>1</points>
 	</card>
+	
 	<card name="Duchy">
 		<type>Victory</type>
 		<cost>
 			<treasure>5</treasure>
 		</cost>
+		<points>3</points>
 	</card>
+	
 	<card name="Province">
 		<type>Victory</type>
 		<cost>
 			<treasure>8</treasure>
 		</cost>
+		<points>6</points>
 	</card>
+	
 	<card name="Curse">
 		<type>Curse</type>
 		<cost>
 			<treasure>0</treasure>
 		</cost>
+		<points>6</points>
 	</card>
+	
 </set>
