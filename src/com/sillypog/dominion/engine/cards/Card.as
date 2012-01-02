@@ -29,6 +29,10 @@ package com.sillypog.dominion.engine.cards
 			return _name;
 		}
 		
+		public function get cost():Cost{
+			return _cost;
+		}
+		
 		public function isType(type:String):Boolean{
 			var index:int = _type.indexOf(type);
 			return index > -1;

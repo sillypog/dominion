@@ -17,7 +17,6 @@ package com.sillypog.dominion.components
 		
 		private var parameters:ChoiceParameters;
 		private var cards:Vector.<Card>;
-		private var selection:Vector.<Card>;
 		
 		public function ChoiceBox(game:Game)
 		{
@@ -51,9 +50,17 @@ package com.sillypog.dominion.components
 				button.y = 10 + (i * 70);
 				addChild(button);
 				
-				button.addEventListener(MouseEvent.CLICK, selectCard);
+				button.addEventListener(MouseEvent.CLICK, selectCard, false, 0, true);
 				buttons.push(button);
 			}
+			
+			var doneButton:ApplicationButton = new ApplicationButton('End Phase');
+			doneButton.x = 30;
+			doneButton.y = height - doneButton.height - 20;
+			addChild(doneButton);
+			
+			doneButton.addEventListener(MouseEvent.CLICK, done, false, 0, true);
+			buttons.push(doneButton);
 		}
 		
 		private function clear():void{
@@ -62,8 +69,6 @@ package com.sillypog.dominion.components
 				removeChild(buttons[i]);
 			}
 			buttons = new Vector.<ApplicationButton>();
-			
-			selection = new Vector.<Card>();
 		}
 		
 		/**
@@ -83,6 +88,14 @@ package com.sillypog.dominion.components
 			if (success){
 				ApplicationButton(e.currentTarget).visible = false;
 			}
+		}
+		
+		/**
+		 * End phase without further selection.
+		 */
+		private function done(e:MouseEvent):void{
+			parameters.result = null;
+			game.choiceComplete(parameters);
 		}
 		
 		

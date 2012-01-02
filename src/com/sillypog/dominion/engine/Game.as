@@ -1,5 +1,6 @@
 package com.sillypog.dominion.engine
 {
+	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.commands.C_DrawFromSupplyToDiscard;
 	import com.sillypog.dominion.engine.commands.C_MoveCard;
 	import com.sillypog.dominion.engine.commands.C_PerformStep;
@@ -95,6 +96,11 @@ package com.sillypog.dominion.engine
 		 * Now it has a result field saying which cards were chosen.
 		 */
 		public function choiceComplete(parameters:ChoiceParameters):Boolean{
+			if (!parameters.result){
+				_currentTurn.nextPhase();
+				return false;
+			}
+			
 			// Should maybe return a boolean based on whether result matches parameters
 			if (!parameters.result.isType(parameters.cardType)){
 				return false;
@@ -115,11 +121,20 @@ package com.sillypog.dominion.engine
 		}
 		
 		public function buyComplete(parameters:BuyParameters):Boolean{
-			// Check if the purchase is valid and return false if not
+			if (!parameters.purchase){
+				_currentTurn.nextPhase();
+				return false;
+			}
+			
+			// Check if the purchase (ie there are cards to buy and player can meet conditions for purchase) is valid and return false if not
+			var supplyPile:SupplyPile = SupplyPile(parameters.purchase);
+			if (supplyPile.count == 0 || !supplyPile.purchasable(parameters)){
+				return false
+			}
+			
 			
 			// Run commands to take the card from the supply and add to player deck
 			var player:Player = parameters.player;
-			var supplyPile:SupplyPile = SupplyPile(parameters.purchase);
 			var buyCommand:C_DrawFromSupplyToDiscard = new C_DrawFromSupplyToDiscard(supplyPile, player);
 			buyCommand.execute();
 			

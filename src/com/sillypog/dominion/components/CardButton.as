@@ -23,6 +23,8 @@ package com.sillypog.dominion.components
 			_countLabel.text = String(pile.count);
 			_countLabel.textColor = 0xFF0000;
 			_countLabel.height = 20;
+			_countLabel.selectable = false;
+			_countLabel.mouseEnabled = false;
 
 			addChild(_countLabel);
 			

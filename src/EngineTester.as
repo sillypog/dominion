@@ -133,6 +133,8 @@ package
 			
 			if (success){
 				currentBuy = null
+			} else {
+				trace('You can buy that');
 			}
 		}
 		

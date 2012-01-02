@@ -1,6 +1,8 @@
 package com.sillypog.dominion.engine.piles
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.vo.BuyParameters;
+	import com.sillypog.dominion.engine.vo.Cost;
 	
 	import flash.events.Event;
 
@@ -55,6 +57,14 @@ package com.sillypog.dominion.engine.piles
 			var visibleCards:Vector.<Card> = super.showVisibleCards(requester);
 			visibleCards.push(_cardType);
 			return visibleCards;
+		}
+		
+		/**
+		 * This method will need to be refined to include other restictions, eg not having any copper in play.
+		 */
+		public function purchasable(parameters:BuyParameters):Boolean{
+			var cost:Cost = _cardType.cost;
+			return cost.met(parameters.treasure);
 		}
 		
 	}

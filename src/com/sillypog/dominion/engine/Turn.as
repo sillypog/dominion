@@ -34,13 +34,12 @@ package com.sillypog.dominion.engine
 			}
 		}
 		
-		private function nextPhase():void{
+		public function nextPhase():void{
 			_currentPhase.end();
 			
 			_currentPhase = _currentPhase.nextPhase;
 			
 			if (_currentPhase){
-				//_currentPhase.play();
 				continueTurn();
 			} else {
 				trace('Turn complete');
