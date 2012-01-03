@@ -14,6 +14,35 @@
 		<cost>
 			<treasure>5</treasure>
 		</cost>
+		<play>
+			<step>
+				<affects>Current</affects>
+				<effect type="Draw">
+					<amount>1</amount>
+				</effect>
+			</step>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Actions</property>
+					<amount>1</amount>
+				</effect>
+			</step>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Buys</property>
+					<amount>1</amount>
+				</effect>
+			</step>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Treasure</property>
+					<amount>1</amount>
+				</effect>
+			</step>
+		</play>
 	</card>
 	
 	<card name="Militia">
@@ -67,6 +96,21 @@
 		<cost>
 			<treasure>3</treasure>
 		</cost>
+		<play>
+			<step>
+				<affects>Current</affects>
+				<effect type="Draw">
+					<amount>1</amount>
+				</effect>
+			</step>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Actions</property>
+					<amount>2</amount>
+				</effect>
+			</step>
+		</play>
 	</card>
 	
 	<card name="Woodcutter">
