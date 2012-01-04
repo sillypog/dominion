@@ -10,6 +10,10 @@ package com.sillypog.dominion.engine.vo
 			_potion = description.potion;
 		}
 		
+		public function get treasure():uint{
+			return _treasure;
+		}
+		
 		public function met(treasure:uint, potion:uint = 0):Boolean{
 			var result:Boolean;
 			if (treasure >= _treasure && potion >= _potion){

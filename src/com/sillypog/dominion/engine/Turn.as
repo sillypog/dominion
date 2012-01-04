@@ -17,6 +17,14 @@ package com.sillypog.dominion.engine
 			_currentPlayer = currentPlayer;
 		}
 		
+		public function get phase():String{
+			var name:String;
+			if (_currentPhase){
+				name = _currentPhase.name;
+			}
+			return name;
+		}
+		
 		public function begin():void{
 			trace(_currentPlayer.name + ' beginning turn');
 			
@@ -35,6 +43,10 @@ package com.sillypog.dominion.engine
 		}
 		
 		public function nextPhase():void{
+			if (!_currentPhase){
+				return;	// Just in case turn has already ended.
+			}
+			
 			_currentPhase.end();
 			
 			_currentPhase = _currentPhase.nextPhase;

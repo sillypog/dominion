@@ -1,9 +1,11 @@
 package com.sillypog.dominion.engine
 {
 	import com.sillypog.dominion.engine.cards.Card;
+	import com.sillypog.dominion.engine.commands.C_BuyCard;
 	import com.sillypog.dominion.engine.commands.C_DrawFromSupplyToDiscard;
 	import com.sillypog.dominion.engine.commands.C_MoveCard;
 	import com.sillypog.dominion.engine.commands.C_PerformStep;
+	import com.sillypog.dominion.engine.commands.ICommand;
 	import com.sillypog.dominion.engine.events.BuyEvent;
 	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.events.ChoiceEvent;
@@ -91,6 +93,10 @@ package com.sillypog.dominion.engine
 			_currentTurn.begin();
 		}
 		
+		public function continueTurn():void{
+			_currentTurn.continueTurn();
+		}
+		
 		/**
 		 * The application returns the same parameters object as was dispatched via choiceRequired.
 		 * Now it has a result field saying which cards were chosen.
@@ -115,7 +121,7 @@ package com.sillypog.dominion.engine
 			moveCommand.execute();
 			
 			// Now we can continue the current turn
-			_currentTurn.continueTurn();
+//			_currentTurn.continueTurn();
 			
 			return true;
 		}
@@ -135,10 +141,10 @@ package com.sillypog.dominion.engine
 			
 			// Run commands to take the card from the supply and add to player deck
 			var player:Player = parameters.player;
-			var buyCommand:C_DrawFromSupplyToDiscard = new C_DrawFromSupplyToDiscard(supplyPile, player);
+			var buyCommand:ICommand = new C_BuyCard(supplyPile, player);
 			buyCommand.execute();
 			
-			_currentTurn.continueTurn();
+//			_currentTurn.continueTurn();
 			
 			return true;
 		}

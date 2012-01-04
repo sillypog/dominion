@@ -125,6 +125,7 @@ package
 		
 		private function buyCard(button:ApplicationButton):void{
 			if (!currentBuy){
+				trace('No buy yet')
 				return;
 			}
 			var pile:Pile = Table.instance.getPileByName(button.label);
@@ -133,9 +134,10 @@ package
 			var success:Boolean = game.buyComplete(currentBuy);
 			
 			if (success){
-				currentBuy = null
+				currentBuy = null;	// This is preventing legitimate second buys.
+				game.continueTurn();
 			} else {
-				trace('You can buy that');
+				trace('Buy failed');
 			}
 		}
 		

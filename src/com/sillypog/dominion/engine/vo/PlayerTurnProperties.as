@@ -17,6 +17,9 @@ package com.sillypog.dominion.engine.vo
 		}
 		
 		public function change(key:String, amount:int):int{
+			if (key == ACTIONS){
+				trace('DEBUG');
+			}
 			dictionary[key] += amount;
 			return dictionary[key];
 		}

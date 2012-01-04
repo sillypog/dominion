@@ -38,5 +38,6 @@ package com.sillypog.dominion.engine.vo
 		public function set purchase(value:Pile):void{
 			_purchase = value;
 		}
+		
 	}
 }

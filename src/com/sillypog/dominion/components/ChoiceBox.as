@@ -87,6 +87,7 @@ package com.sillypog.dominion.components
 			var success:Boolean = game.choiceComplete(parameters);
 			if (success){
 				ApplicationButton(e.currentTarget).visible = false;
+				game.continueTurn();
 			}
 		}
 		
