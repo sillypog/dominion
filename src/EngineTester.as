@@ -134,7 +134,9 @@ package
 			var success:Boolean = game.buyComplete(currentBuy);
 			
 			if (success){
-				currentBuy = null;	// This is preventing legitimate second buys.
+				if (currentBuy.complete){
+					currentBuy = null;
+				}
 				game.continueTurn();
 			} else {
 				trace('Buy failed');

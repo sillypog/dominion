@@ -39,5 +39,10 @@ package com.sillypog.dominion.engine.vo
 			_purchase = value;
 		}
 		
+		public function get complete():Boolean{
+			var turnProperties:PlayerTurnProperties = _player.turnProperties;
+			return turnProperties.retrieve(PlayerTurnProperties.BUYS) == 0;
+		}
+		
 	}
 }
