@@ -118,6 +118,23 @@
 		<cost>
 			<treasure>3</treasure>
 		</cost>
+		<play>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Buy</property>
+					<amount>1</amount>
+				</effect>
+			</step>
+			<step>
+				<affects>Current</affects>
+				<effect type="Change">
+					<property>Treasure</property>
+					<amount>2</amount>
+				</effect>
+			</step>
+		</play>
+		<text><![CDATA[+1 Buy<br>+2]]></text>
 	</card>
 	
 	<card name="Workshop">
@@ -125,6 +142,7 @@
 		<cost>
 			<treasure>3</treasure>
 		</cost>
+		<text><![CDATA[Gain a card costing up to 4.]]></text>
 	</card>
 	
 </set>
