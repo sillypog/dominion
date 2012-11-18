@@ -4,10 +4,7 @@ package com.sillypog.dominion.engine.phases
 	import com.sillypog.dominion.engine.Turn;
 	import com.sillypog.dominion.engine.commands.C_PlayerDrawCards;
 	import com.sillypog.dominion.engine.commands.C_TransferPlayerPile;
-	import com.sillypog.dominion.engine.piles.player.Discard;
-	import com.sillypog.dominion.engine.piles.player.Hand;
 	import com.sillypog.dominion.engine.piles.player.PileNames;
-	import com.sillypog.dominion.engine.piles.player.PlayerPile;
 
 	public class CleanupPhase implements IPhase
 	{

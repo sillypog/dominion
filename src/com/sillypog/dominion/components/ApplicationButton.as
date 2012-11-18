@@ -6,7 +6,6 @@ package com.sillypog.dominion.components
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
-	import flash.utils.setTimeout;
 
 	public class ApplicationButton extends Sprite
 	{

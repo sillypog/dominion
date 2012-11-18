@@ -2,7 +2,6 @@ package com.sillypog.dominion.engine.phases
 {
 	import com.sillypog.dominion.engine.Player;
 	import com.sillypog.dominion.engine.Turn;
-	import com.sillypog.dominion.engine.vo.Cost;
 	import com.sillypog.dominion.engine.vo.PlayerTurnProperties;
 
 	public class BuyPhase implements IPhase

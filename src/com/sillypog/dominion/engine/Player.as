@@ -1,6 +1,5 @@
 package com.sillypog.dominion.engine
 {
-	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.events.CardPlayEvent;
 	import com.sillypog.dominion.engine.piles.IPileOwner;
 	import com.sillypog.dominion.engine.piles.Pile;
@@ -12,7 +11,6 @@ package com.sillypog.dominion.engine
 	import com.sillypog.dominion.engine.piles.player.PlayerPile;
 	import com.sillypog.dominion.engine.piles.player.Reveal;
 	import com.sillypog.dominion.engine.vo.BuyParameters;
-	import com.sillypog.dominion.engine.vo.CardPlayParameters;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	import com.sillypog.dominion.engine.vo.PlayerTurnProperties;
 	

@@ -1,7 +1,6 @@
 package com.sillypog.events
 {
 	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
 	
 	public class GlobalDispatcher extends EventDispatcher
 	{

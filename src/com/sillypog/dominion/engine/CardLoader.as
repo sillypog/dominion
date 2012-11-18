@@ -2,7 +2,6 @@ package com.sillypog.dominion.engine
 {
 	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.cards.KingdomCard;
-	import com.sillypog.dominion.engine.piles.MixedPile;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;

@@ -3,7 +3,6 @@ package com.sillypog.dominion.components
 	import com.sillypog.dominion.engine.Game;
 	import com.sillypog.dominion.engine.cards.Card;
 	import com.sillypog.dominion.engine.piles.Pile;
-	import com.sillypog.dominion.engine.piles.player.PileNames;
 	import com.sillypog.dominion.engine.vo.ChoiceParameters;
 	
 	import flash.display.MovieClip;
